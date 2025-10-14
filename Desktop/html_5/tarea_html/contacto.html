@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contacto - Estadísticas de Fútbol</title>
+</head>
+<body>
+  <header>
+    <h1>Contacto</h1>
+    <p><em>Estamos aquí para ayudarte</em></p>
+  </header>
+
+  <nav>
+    <h2>Navegación</h2>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="acerca.html">Acerca de</a></li>
+      <li><a href="servicios.html">Servicios</a></li>
+      <li><a href="tabla.html">Tablas de Estadísticas</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+      <li><a href="https://www.premierleague.com" target="_blank" rel="noopener">Premier League</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <article>
+      <h2>Formulario de Contacto</h2>
+      <p>Completa el siguiente formulario y me pondre en contacto contigo lo antes posible. Los campos marcados con <strong>asterisco (*)</strong> son obligatorios.</p>
+
+      <section id="formulario-principal">
+        <h3>Información de Contacto</h3>
+        
+        <form action="/enviar-formulario" method="post">
+          <fieldset>
+            <legend>Datos Personales</legend>
+            
+            <p>
+              <label for="nombre">Nombre completo: *</label>
+              <br>
+              <input type="text" id="nombre" name="nombre" required placeholder="Lionel Messi">
+            </p>
+
+            <p>
+              <label for="email">Correo electrónico: *</label>
+              <br>
+              <input type="email" id="email" name="email" required placeholder="Messi@ejemplo.com">
+            </p>
+
+            <p>
+              <label for="telefono">Teléfono de contacto:</label>
+              <br>
+              <input type="text" id="telefono" name="telefono" placeholder="+593 093 456 7839">
+            </p>
+
+            <p>
+              <label for="edad">Edad:</label>
+              <br>
+              <input type="number" id="edad" name="edad" min="13" max="120" placeholder="25">
+            </p>
+
+            <p>
+              <label for="fecha-contacto">Mejor fecha para contactarte:</label>
+              <br>
+              <input type="date" id="fecha-contacto" name="fecha-contacto">
+            </p>
+          </fieldset>
+
+          <fieldset>
+            <legend>Tipo de Consulta</legend>
+            
+            <p>¿Cómo nos conociste?</p>
+            <p>
+              <input type="radio" id="redes-sociales" name="como-conociste" value="redes">
+              <label for="redes-sociales">Redes sociales</label>
+            </p>
+            <p>
+              <input type="radio" id="buscador" name="como-conociste" value="buscador">
+              <label for="buscador">Buscador (Google, Tik Tok,Youtube, etc.)</label>
+            </p>
+            <p>
+              <input type="radio" id="recomendacion" name="como-conociste" value="recomendacion">
+              <label for="recomendacion">Recomendación de un amigo</label>
+            </p>
+            <p>
+              <input type="radio" id="otro-medio" name="como-conociste" value="otro">
+              <label for="otro-medio">Otro</label>
+            </p>
+
+            <hr>
+
+            <p>Servicios en los que estás interesado (selecciona todos los que apliquen):</p>
+            <p>
+              <input type="checkbox" id="servicio-basico" name="servicios" value="basico">
+              <label for="servicio-basico">Servicio Básico</label>
+            </p>
+            <p>
+              <input type="checkbox" id="servicio-profesional" name="servicios" value="profesional">
+              <label for="servicio-profesional">Servicio Profesional</label>
+            </p>
+            <p>
+              <input type="checkbox" id="servicio-enterprise" name="servicios" value="enterprise">
+              <label for="servicio-enterprise">Servicio Enterprise</label>
+            </p>
+            <p>
+              <input type="checkbox" id="consultoria" name="servicios" value="consultoria">
+              <label for="consultoria">Consulta personalizada</label>
+            </p>
+          </fieldset>
+
+          <fieldset>
+            <legend>Tu Mensaje</legend>
+            
+            <p>
+              <label for="asunto">Asunto: *</label>
+              <br>
+              <select id="asunto" name="asunto" required>
+                <option value="">-- Selecciona un asunto --</option>
+                <option value="info-general">Información general</option>
+                <option value="soporte-tecnico">Soporte técnico</option>
+                <option value="ventas">Consulta de ventas</option>
+                <option value="colaboracion">Propuesta de colaboración</option>
+                <option value="prensa">Consulta de prensa</option>
+                <option value="otro">Otro</option>
+              </select>
+            </p>
+
+            <p>
+              <label for="mensaje">Tu mensaje: *</label>
+              <br>
+              <textarea id="mensaje" name="mensaje" rows="8" cols="50" required placeholder="Escribe aquí tu consulta o comentario..."></textarea>
+            </p>
+
+            <p>
+              <input type="checkbox" id="newsletter" name="newsletter" value="si">
+              <label for="newsletter">Deseo recibir el boletín semanal con estadísticas destacadas</label>
+            </p>
+
+            <p>
+              <input type="checkbox" id="terminos" name="terminos" value="aceptado" required>
+              <label for="terminos">Acepto los términos y condiciones *</label>
+            </p>
+          </fieldset>
+
+          <p>
+            <button type="submit">Enviar Mensaje</button>
+            <button type="reset">Limpiar Formulario</button>
+          </p>
+        </form>
+      </section>
+
+      <hr>
+
+      <section id="otras-formas-contacto">
+        <h3>Otras Formas de Contacto</h3>
+        
+        <dl>
+          <dt>Email directo</dt>
+          <dd><a href="Mateoalejo@estadisticasfutbol.com">Mateoalejo@estadisticasfutbol.com</a></dd>
+          
+          <dt>Teléfono de atención</dt>
+          <dd>+593 098 973 2574 (Lunes a Viernes, 9:00 am - 18:00 pm)</dd>
+          
+          <dt>Chat en vivo</dt>
+          <dd>Disponible en nuestra web de lunes a viernes</dd>
+          
+          <dt>Redes sociales</dt>
+          <dd>
+            <ul>
+              <li>Twitter: <a href="https://twitter.com/@Mateoalejoestadisticasfutbol.com" target="_blank" rel="noopener">@Mateoalejoestadisticasfutbol</a></li>
+              <li>LinkedIn: <a href="https://linkedin.com/company/@Mateoalejoestadisticas-futbol" target="_blank" rel="noopener">Mateoalejoestadisticas-futbol</a></li>
+              <li>Instagram: <a href="https://instagram.com/@Mateoalejoestadisticasfutbol.com" target="_blank" rel="noopener">@Mateoalejoestadisticasfutbol</a></li>
+            </ul>
+          </dd>
+        </dl>
+      </section>
+
+      <section id="horarios">
+        <h3>Horario de Atención</h3>
+        <p>Mateo está disponible en los siguientes horarios:</p>
+        
+        <table>
+          <caption>Horarios de atención por departamento</caption>
+          <thead>
+            <tr>
+              <th scope="col">Departamento</th>
+              <th scope="col">Días</th>
+              <th scope="col">Horario</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Soporte Técnico</th>
+              <td>Lun - Vie</td>
+              <td>9:00am- 20:00pm</td>
+            </tr>
+            <tr>
+              <th scope="row">Ventas</th>
+              <td>Lun - Vie</td>
+              <td>9:00am - 18:00pm</td>
+            </tr>
+            <tr>
+              <th scope="row">Administración</th>
+              <td>Lun - Jue</td>
+              <td>9:00am - 17:00pm</td>
+            </tr>
+            <tr>
+              <th scope="row">Emergencias (Solo Enterprise)</th>
+              <td>Todos los días</td>
+              <td>24/7</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </article>
+
+    <aside>
+      <h3>Preguntas Frecuentes</h3>
+      <p><strong>¿Cuánto tarda la respuesta?</strong></p>
+      <p>Respondemos en menos de 24 horas laborables.</p>
+      
+      <hr>
+      
+      <p><strong>¿Ofrecen soporte en otros idiomas?</strong></p>
+      <p>Sí, también en inglés, francés y alemán.</p>
+
+    <section id="enlaces-internos">
+      <h3>Enlaces Útiles</h3>
+      <nav>
+        <ul>
+          <li><a href="#formulario-principal">Ir al Formulario</a></li>
+          <li><a href="#otras-formas-contacto">Otras Formas de Contacto</a></li>
+          <li><a href="#horarios">Ver Horarios</a></li>
+          <li><a href="servicios.html">Conocer mis servicios</a></li>
+          <li><a href="index.html">Volver al inicio</a></li>
+        </ul>
+      </nav>
+    </section>
+
+    <section id="ubicacion">
+      <h3>Ubicación de las oficinas</h3>
+      <p>Visítame  en mis oficinas principales:</p>
+      <blockquote>
+        <address>
+          <strong>Sede Central </strong><br>
+          Av. colon 164<br>
+          28001 Quito, Ecuador<br>
+          <abbr title="Teléfono">Telefono:</abbr> +593 098 973 2574
+        </address>
+      </blockquote>
+
+      <p>Horario de atención presencial: Lunes a Viernes, de 10:00am a 14:00pm y de 16:00pm a 19:00pm</p>
+      <p><em>Nota: Se recomienda agendar cita.</em></p>
+    </section>
+  </main>
+
+  <footer>
+    <hr>
+    <address>
+      <p>Contacto general: <a href="@Mateoalejoestadisticasfutbol.com">info@Mateoalejoestadisticasfutbol.com</a></p>
+    </address>
+    <p><small>&copy; 2025 Portal de Estadísticas de Fútbol. Protegemos tu privacidad.</small></p>
+    <br>
+    <p><a href="acerca.html">Sobre nosotros</a> | <a href="tabla.html">Ver estadísticas</a></p>
+  </footer>
+</body>
+</html>
