@@ -1,10 +1,14 @@
-function crearEstudiante(nombre, edad){
-    if(!typeof nombre=='string' || !nombre.trim()){
-        throw new TypeError("nombre inválido");
-    }   
-    if(!Number.isInteger(edad) || edad<0){
-        throw new TypeError("edad inválida");
-    }
-    return {nombre: nombre.trim(), edad};
-}
-module.exports={crearEstudiante}
+const { crearEstudiante } = require('./crearEstudiante');
+
+describe('Crear Estudiante', ()=>{
+    test('Happy path:', () => {
+        expect(crearEstudiante(maria, 17)).toBe({
+            nombre: "maria",
+            edad: 17
+        }); 
+    });
+    test('Sad path: nombre / edad inválidos', () => {
+        expect(()=>crearEstudiante('', 20)).toThrow('nombre inválido'); 
+        expect(()=>crearEstudiante('Ana',-1)).toThrow('edad inválida'); 
+    }); 
+});
