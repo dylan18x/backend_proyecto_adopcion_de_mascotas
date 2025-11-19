@@ -1,10 +1,9 @@
-function crearEstudiante(nombre, edad){
-    if(!typeof nombre=='string' || !nombre.trim()){
-        throw new TypeError("nombre inválido");
-    }   
-    if(!Number.isInteger(edad) || edad<0){
-        throw new TypeError("edad inválida");
+function buscarPalabra(frase, palabra){
+    if(!palabra ||!typeof frase=='string' || !typeof persona == 'string'){
+        throw new TypeError ("frase invalida");
     }
-    return {nombre: nombre.trim(), edad};
+    
+    return frase.incluides(palabra);// lo que hace el split es separar 
+
 }
-module.exports={crearEstudiante}
+module.exports={buscarPalabra}

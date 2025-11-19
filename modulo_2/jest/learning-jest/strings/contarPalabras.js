@@ -1,10 +1,11 @@
-function crearEstudiante(nombre, edad){
-    if(!typeof nombre=='string' || !nombre.trim()){
-        throw new TypeError("nombre inválido");
-    }   
-    if(!Number.isInteger(edad) || edad<0){
-        throw new TypeError("edad inválida");
+function contarPalabras(texto){
+    if(!texto || !typeof persona == 'string'){
+        throw new TypeError ("frase invalida");
     }
-    return {nombre: nombre.trim(), edad};
+    const textoTrimmed = texto.trim();
+    if (textoTrimmed==='')
+        throw new TypeError("frase invalido");  
+    return textoTrimmed.split(/\s+./).length; // lo que hace el split es separar
+
 }
-module.exports={crearEstudiante}
+module.exports={contarPalabras}

@@ -1,10 +1,19 @@
-function crearEstudiante(nombre, edad){
-    if(!typeof nombre=='string' || !nombre.trim()){
-        throw new TypeError("nombre inválido");
-    }   
-    if(!Number.isInteger(edad) || edad<0){
-        throw new TypeError("edad inválida");
-    }
-    return {nombre: nombre.trim(), edad};
-}
-module.exports={crearEstudiante}
+const {contarPalabras } = require('./contarPalabras');
+
+
+describe('Contar Palabras',()=>{
+    test('Happy path:hola mundo jest ->3',()=>{
+        const response =contarPalabras('hola mundo jest ')
+
+        expect(response).toBE(3);    
+       
+    });
+
+    test('Sad path: ERROR ',
+        ()=>{
+            expect(()=>contarPalabras(null
+            )).toThrow('frase invalida');
+        expect(()=>contarPalabras(''))        
+            .toThrow('frase invalida ');
+    });
+});

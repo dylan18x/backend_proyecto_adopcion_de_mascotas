@@ -1,10 +1,9 @@
-function crearEstudiante(nombre, edad){
-    if(!typeof nombre=='string' || !nombre.trim()){
-        throw new TypeError("nombre inválido");
-    }   
-    if(!Number.isInteger(edad) || edad<0){
-        throw new TypeError("edad inválida");
+function enMayusculas(texto){
+    if(!texto || !typeof persona == 'string'){
+        throw new TypeError ("texto invalida");
     }
-    return {nombre: nombre.trim(), edad};
+  
+    return texto.toUpperCase();
+
 }
-module.exports={crearEstudiante}
+module.exports={enMayusculas}

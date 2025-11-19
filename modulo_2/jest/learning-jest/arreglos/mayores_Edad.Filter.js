@@ -1,15 +1,6 @@
-const { maximo } = require('./maximo');
-
-describe('Maximo', ()=>{
-    test('Happy path: [4,9,2,10] mayor 10', () => {
-        expect(maximo([4,9,2,10])).toBe(10); 
-    });
-    test('Happy path: [-5,-1] mayor -1', () => {
-        expect(maximo([-5,-1])).toBe(-1); 
-    });
-    
-    test('Sad path: arreglo inválido', () => {
-        expect(()=>maximo([])).toThrow('arreglo inválido'); 
-        expect(()=>maximo('edificio')).toThrow('arreglo inválido'); 
-    }); 
-});
+function mayoresEdadFilter(arreglo){
+    if(!Array.isArray(arreglo)) 
+        throw new TypeError("arreglo inválido");
+    return arreglo.filter(n=>n>=18);
+}
+module.exports={mayoresEdadFilter}

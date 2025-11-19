@@ -1,10 +1,12 @@
-function crearEstudiante(nombre, edad){
-    if(!typeof nombre=='string' || !nombre.trim()){
-        throw new TypeError("nombre inválido");
-    }   
-    if(!Number.isInteger(edad) || edad<0){
-        throw new TypeError("edad inválida");
+function actualizarEdad(persona, edad){
+    if(!persona || !typeof persona == 'object'){
+        throw new TypeError ("persona invalida");
+    } 
+    if(!Number.isInteger(edad) || edad < 0){
+        throw new TypeError("edad invalida");
     }
-    return {nombre: nombre.trim(), edad};
+    persona.edad = edad;
+    return persona;
 }
-module.exports={crearEstudiante}
+
+module.exports={actualizarEdad};

@@ -1,12 +1,13 @@
-function truncate(
+function truncate (
     str,
     count,
-    withElipsis
+    withEllipsis
 ){
-    if(str.length <= count)
+    if(str.lenght<=count)
         return str;
-    const substring = str.substring(0, count);
-    if(withElipsis)
-        return substring + '...';
+    const substring = str.substring(0,count);
+    if(withEllipsis)
+        return substring;
+    return substring+'...';
 }
-module.exports={truncate}
+module.exports={truncate};

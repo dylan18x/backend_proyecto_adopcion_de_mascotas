@@ -1,15 +1,15 @@
-const { maximo } = require('./maximo');
+const { promedio } = require('./promedio');
 
-describe('Maximo', ()=>{
-    test('Happy path: [4,9,2,10] mayor 10', () => {
-        expect(maximo([4,9,2,10])).toBe(10); 
+describe('Promedio', ()=>{
+    test('Happy path: [4,9,2,10] mayor 6.25', () => {
+        expect(promedio([4,9,2,10])).toBe(6.25); 
     });
-    test('Happy path: [-5,-1] mayor -1', () => {
-        expect(maximo([-5,-1])).toBe(-1); 
+    test('Happy path: [-5,-1] mayor -3', () => {
+        expect(promedio([-5,-1])).toBe(-3); 
     });
     
     test('Sad path: arreglo inválido', () => {
-        expect(()=>maximo([])).toThrow('arreglo inválido'); 
-        expect(()=>maximo('edificio')).toThrow('arreglo inválido'); 
+        expect(()=>promedio([])).toThrow('arreglo inválido'); 
+        expect(()=>promedio('edificio')).toThrow('arreglo inválido'); 
     }); 
 });
