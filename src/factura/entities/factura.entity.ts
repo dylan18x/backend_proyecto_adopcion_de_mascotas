@@ -1,12 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
 @Entity()
 export class Factura {
   @PrimaryGeneratedColumn()
   id_factura: number;
 
-  @Column({ type: 'date' })
-  fecha: string;
+  @CreateDateColumn({ type: 'date' })
+   fecha: Date;
+  
 
   @Column({ type: 'decimal' })
   total: number;
