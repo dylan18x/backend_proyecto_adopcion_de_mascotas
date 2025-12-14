@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { AdopcionesModule } from './adopciones/adopciones.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ClientesModule } from './cliente/cliente.module';
 
 @Module({
   imports: [
@@ -17,8 +18,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
-      ssl: { rejectUnauthorized: false },
-    }),AdopcionesModule],
+      //ssl: { rejectUnauthorized: false },
+    }),AdopcionesModule,
+    ClientesModule
+    ],
 
 })
 export class AppModule {}
