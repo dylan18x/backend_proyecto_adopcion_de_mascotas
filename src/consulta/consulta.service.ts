@@ -1,0 +1,64 @@
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, Like } from 'typeorm';
+import { Consulta } from './consulta.entity';
+import { CreateConsultaDto } from './dto/create-consulta.dto';
+import { UpdateConsultaDto } from './dto/update-consulta.dto';
+
+@Injectable()
+export class ConsultaService {
+  constructor(
+    @InjectRepository(Consulta)
+    private consultaRepository: Repository<Consulta>,
+  ) {}
+
+  async create(createDto: CreateConsultaDto) {
+    const consulta = this.consultaRepository.create(createDto as any);
+
+    return this.consultaRepository.save(consulta);
+  }
+
+  async findAll(query: any) {
+    const page = parseInt(query.page, 10) || 1;
+    const limit = parseInt(query.limit, 10) || 10;
+    const skip = (page - 1) * limit;
+    const where: any = {};
+
+    if (query.search) {
+      where.title = Like(`%${query.search}%`);
+    }
+
+    if (query.userId) {
+      where.userId = query.userId;
+    }
+
+    const [items, total] = await this.consultaRepository.findAndCount({
+      where,
+      take: limit,
+      skip,
+      order: { createdAt: 'DESC' },
+    });
+
+    return {
+      items,
+      meta: { total, page, limit },
+    };
+  }
+
+  async findOne(id: string) {
+    const item = await this.consultaRepository.findOne({ where: { id } });
+    if (!item) throw new NotFoundException('Consulta no encontrada');
+    return item;
+  }
+
+  async update(id: string, updateDto: UpdateConsultaDto) {
+    const item = await this.findOne(id);
+    Object.assign(item, updateDto);
+    return this.consultaRepository.save(item);
+  }
+
+  async remove(id: string) {
+    const item = await this.findOne(id);
+    return this.consultaRepository.remove(item);
+  }
+}
