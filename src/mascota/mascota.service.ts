@@ -1,4 +1,54 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Mascota } from './mascota.entity';
+import { CreateMascotaDto } from './dto/create-mascota.dto';
+import { Cliente } from 'src/cliente/cliente.entity';
+import { UpdateMascotaDto } from './dto/update-mascota.dto';
 
 @Injectable()
-export class MascotaService {}
+export class MascotasService {
+  remove(id: string) {
+      throw new Error('Method not implemented.');
+  }
+  update(id: string, updateMascotaDto: UpdateMascotaDto) {
+      throw new Error('Method not implemented.');
+  }
+  constructor(
+    @InjectRepository(Mascota)
+    private readonly mascotaRepository: Repository<Mascota>,
+
+    @InjectRepository(Cliente)
+    private readonly clienteRepository: Repository<Cliente>,
+  ) {}
+
+  async create(createMascotaDto: CreateMascotaDto) {
+    const cliente = await this.clienteRepository.findOne({
+      where: { id: createMascotaDto.cliente_id },
+    });
+
+    if (!cliente) {
+      throw new NotFoundException('Cliente no existe');
+    }
+
+    const mascota = this.mascotaRepository.create({
+      nombre: createMascotaDto.nombre,
+      especie: createMascotaDto.especie,
+      raza: createMascotaDto.raza,
+      cliente,
+    });
+
+    return this.mascotaRepository.save(mascota);
+  }
+
+  findAll() {
+    return this.mascotaRepository.find({ relations: ['cliente'] });
+  }
+
+  findOne(id: string) {
+    return this.mascotaRepository.findOne({
+      where: { id },
+      relations: ['cliente'],
+    });
+  }
+}

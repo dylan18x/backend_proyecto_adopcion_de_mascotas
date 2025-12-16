@@ -1,9 +1,13 @@
 import { Module } from '@nestjs/common';
-import { MascotaController } from './mascota.controller';
-import { MascotaService } from './mascota.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Mascota } from './mascota.entity';
+import { MascotasService } from './mascota.service';
+import { MascotasController } from './mascota.controller';
+import { Cliente } from 'src/cliente/cliente.entity';
 
 @Module({
-  controllers: [MascotaController],
-  providers: [MascotaService]
+  imports: [TypeOrmModule.forFeature([Mascota, Cliente])],
+  controllers: [MascotasController],
+  providers: [MascotasService],
 })
-export class MascotaModule {}
+export class MascotasModule {}
