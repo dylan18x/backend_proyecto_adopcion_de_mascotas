@@ -1,13 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AdopcionesModule } from './adopciones/adopciones.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConsultaModule } from './consulta/consulta.module';
 import { AuthModule } from './auth/auth.module';
-import { User } from './users/user.entity';
 import { CitaModule } from './cita/cita.module';
 
 @Module({
@@ -22,14 +18,14 @@ import { CitaModule } from './cita/cita.module';
       database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
-      ssl: { rejectUnauthorized: false },
+      //ssl: { rejectUnauthorized: false },
     }),
-    MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://localhost:27017/adoptiondb'),
-    AdopcionesModule,
+    MongooseModule.forRoot(
+      process.env.MONGO_URI || 'mongodb://localhost:27017/adoptiondb',
+    ),
     ConsultaModule,
     CitaModule,
     AuthModule,
   ],
-
 })
 export class AppModule {}

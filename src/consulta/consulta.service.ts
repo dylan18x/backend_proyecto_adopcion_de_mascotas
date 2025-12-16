@@ -5,6 +5,13 @@ import { Consulta } from './consulta.entity';
 import { CreateConsultaDto } from './dto/create-consulta.dto';
 import { UpdateConsultaDto } from './dto/update-consulta.dto';
 
+type QueryParams = {
+  page?: string | number;
+  limit?: string | number;
+  search?: string;
+  userId?: string;
+};
+
 @Injectable()
 export class ConsultaService {
   constructor(
@@ -13,30 +20,28 @@ export class ConsultaService {
   ) {}
 
   async create(createDto: CreateConsultaDto) {
-    const consulta = this.consultaRepository.create(createDto as any);
+    const consulta = this.consultaRepository.create(
+      createDto as Partial<Consulta>,
+    );
 
     return this.consultaRepository.save(consulta);
   }
 
-  async findAll(query: any) {
-    const page = parseInt(query.page, 10) || 1;
-    const limit = parseInt(query.limit, 10) || 10;
+  async findAll(query: QueryParams) {
+    const page = parseInt(String(query.page ?? '1'), 10) || 1;
+    const limit = parseInt(String(query.limit ?? '10'), 10) || 10;
     const skip = (page - 1) * limit;
-    const where: any = {};
 
-    if (query.search) {
-      where.title = Like(`%${query.search}%`);
-    }
-
-    if (query.userId) {
-      where.userId = query.userId;
-    }
+    const where = {
+      ...(query.search ? { titulo: Like(`%${query.search}%`) } : {}),
+      ...(query.userId ? { usuarioId: query.userId } : {}),
+    };
 
     const [items, total] = await this.consultaRepository.findAndCount({
       where,
       take: limit,
       skip,
-      order: { createdAt: 'DESC' },
+      order: { creadoEn: 'DESC' },
     });
 
     return {

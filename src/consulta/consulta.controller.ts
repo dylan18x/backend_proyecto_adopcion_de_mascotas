@@ -14,7 +14,7 @@ export class ConsultaController {
   @Roles('user', 'admin')
   @Post()
   create(@Body() createDto: CreateConsultaDto, @Req() req: any) {
-    // ensure the userId comes from the token
+   
     createDto.userId = req.user.userId;
     return this.consultaService.create(createDto);
   }
