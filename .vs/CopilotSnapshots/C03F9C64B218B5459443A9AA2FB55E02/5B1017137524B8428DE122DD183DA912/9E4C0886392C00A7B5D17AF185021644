@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+﻿import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AdopcionesModule } from './adopciones/adopciones.module';
@@ -8,7 +8,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConsultaModule } from './consulta/consulta.module';
 import { AuthModule } from './auth/auth.module';
 import { User } from './users/user.entity';
-import { CitaModule } from './cita/cita.module';
 
 @Module({
   imports: [
@@ -27,7 +26,6 @@ import { CitaModule } from './cita/cita.module';
     MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://localhost:27017/adoptiondb'),
     AdopcionesModule,
     ConsultaModule,
-    CitaModule,
     AuthModule,
   ],
 

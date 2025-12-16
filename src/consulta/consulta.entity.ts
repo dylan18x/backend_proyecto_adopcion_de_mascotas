@@ -14,12 +14,12 @@ export class Consulta {
   @Column({ name: 'usuario_id', type: 'uuid' })
   usuarioId: string;
 
-  // Referencia opcional a una mascota
+
   @Column({ name: 'mascota_id', type: 'uuid', nullable: true })
   mascotaId?: string;
 
   @Column({ name: 'estado', length: 32, default: 'open' })
-  estado: string; // p.ej. 'open' | 'closed' | 'cancelled'
+  estado: string; 
 
   @CreateDateColumn({ name: 'creado_en' })
   creadoEn: Date;
