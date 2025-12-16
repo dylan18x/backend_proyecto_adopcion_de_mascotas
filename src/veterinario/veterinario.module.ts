@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
-import { VeterinarioController } from './veterinario.controller';
-import { VeterinarioService } from './veterinario.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { VeterinariosService } from './veterinario.service';
+import { VeterinariosController } from './veterinario.controller';
+import { Veterinario } from './veterinario.entity';
 
 @Module({
-  controllers: [VeterinarioController],
-  providers: [VeterinarioService]
+  imports: [TypeOrmModule.forFeature([Veterinario])],
+  controllers: [VeterinariosController],
+  providers: [VeterinariosService],
 })
-export class VeterinarioModule {}
+export class VeterinariosModule {}

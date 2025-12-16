@@ -6,6 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientesModule } from './cliente/cliente.module';
 import { MascotasModule } from './mascota/mascota.module';
+import { Veterinario } from './veterinario/veterinario.entity';
+import { VeterinariosModule } from './veterinario/veterinario.module';
 
 @Module({
   imports: [
@@ -22,7 +24,8 @@ import { MascotasModule } from './mascota/mascota.module';
       //ssl: { rejectUnauthorized: false },
     }),AdopcionesModule,
     ClientesModule,
-    MascotasModule
+    MascotasModule,
+    VeterinariosModule
     ],
 
 })
