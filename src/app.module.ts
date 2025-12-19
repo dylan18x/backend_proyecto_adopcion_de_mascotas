@@ -8,6 +8,7 @@ import { ClientesModule } from './cliente/cliente.module';
 import { MascotasModule } from './mascota/mascota.module';
 import { Veterinario } from './veterinario/veterinario.entity';
 import { VeterinariosModule } from './veterinario/veterinario.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { VeterinariosModule } from './veterinario/veterinario.module';
     }),AdopcionesModule,
     ClientesModule,
     MascotasModule,
-    VeterinariosModule
+    VeterinariosModule,
+    MailModule
     ],
 
 })
