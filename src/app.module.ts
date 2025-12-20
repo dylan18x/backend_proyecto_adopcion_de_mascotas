@@ -1,36 +1,39 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { MongooseModule } from '@nestjs/mongoose';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ClientesModule } from './cliente/cliente.module';
+import { MascotasModule } from './mascota/mascota.module';
+import { VeterinariosModule } from './veterinario/veterinario.module';
+import { MailModule } from './mail/mail.module';
+
+import { RecetasModule } from './recetas/recetas.module';
+import { VacunasModule } from './vacunas/vacunas.module';
+import { VacunacionesModule } from './vacunaciones/vacunaciones.module';
+
+import { ConsultaModule } from './consulta/consulta.module';
+import { CitaModule } from './cita/cita.module';
+import { AuthModule } from './auth/auth.module';
 
 import { PagoModule } from './pago/pago.module';
 import { FacturaModule } from './factura/factura.module';
 import { HistorialMedicoModule } from './historial_medico/historial_medico.module';
 
-
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
+    ConfigModule.forRoot({ isGlobal: true }),
+
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST || 'localhost',
-      port: 5432,
-      username: process.env.DB_USER || 'postgres',
-      password: process.env.DB_PASS || 'postgres',
-      database: process.env.DB_NAME || 'adopcion_mascotas',
+      host: process.env.DB_HOST,
+      port: parseInt(process.env.DB_PORT || '5432', 10),
+      username: process.env.DB_USER,
+      password: process.env.DB_PASS,
+      database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
-      ssl: false,
     }),
-    PagoModule,
-    FacturaModule,
-    HistorialMedicoModule,
-  ],
-  controllers: [AppController],
-  providers: [AppService],
-})
-export class AppModule {}
+
+    MongooseModule.forRoot(
+      process.env.MONGO_URI || 'mongodb://lo_
