@@ -11,8 +11,8 @@ export class Consulta {
   @Column({ name: 'descripcion', type: 'text', nullable: true })
   descripcion?: string;
 
-  @Column({ name: 'usuario_id', type: 'uuid' })
-  usuarioId: string;
+  @Column({ name: 'usuario_id', type: 'uuid', nullable: true })
+  usuarioId?: string;
 
 
   @Column({ name: 'mascota_id', type: 'uuid', nullable: true })

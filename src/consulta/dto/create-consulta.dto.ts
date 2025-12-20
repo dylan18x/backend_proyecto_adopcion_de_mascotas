@@ -9,8 +9,9 @@ export class CreateConsultaDto {
   @IsString()
   descripcion?: string;
 
+  @IsOptional()
   @IsUUID()
-  userId: string;
+  userId?: string;
 
   @IsOptional()
   @IsUUID()

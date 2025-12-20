@@ -5,8 +5,9 @@ export class CreateCitaDto {
   @IsUUID()
   consultaId?: string;
 
+  @IsOptional()
   @IsUUID()
-  usuarioId: string;
+  usuarioId?: string;
 
   @IsDateString()
   fechaHora: string;

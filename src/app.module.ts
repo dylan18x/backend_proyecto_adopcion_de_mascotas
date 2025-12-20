@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConsultaModule } from './consulta/consulta.module';
 import { AuthModule } from './auth/auth.module';
 import { CitaModule } from './cita/cita.module';
+import { MedicamentosModule } from './medicamentos/medicamentos.module';
 
 @Module({
   imports: [
@@ -20,12 +21,11 @@ import { CitaModule } from './cita/cita.module';
       synchronize: true,
       //ssl: { rejectUnauthorized: false },
     }),
-    MongooseModule.forRoot(
-      process.env.MONGO_URI || 'mongodb://localhost:27017/adoptiondb',
-    ),
+    MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://localhost:27017/adoptiondb'),
     ConsultaModule,
     CitaModule,
     AuthModule,
+    MedicamentosModule,
   ],
 })
 export class AppModule {}

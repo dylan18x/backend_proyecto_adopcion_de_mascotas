@@ -1,20 +1,43 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, Query, UseGuards, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+  Query,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
+import { Request } from 'express';
 import { CitaService } from './cita.service';
 import { CreateCitaDto } from './dto/create-cita.dto';
 import { UpdateCitaDto } from './dto/update-cita.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
+import { OptionalJwtAuthGuard } from '../auth/optional-jwt-auth.guard';
+
+interface AuthUser {
+  userId?: string;
+  role?: string;
+}
 
 @Controller('citas')
 export class CitaController {
   constructor(private readonly citaService: CitaService) {}
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(OptionalJwtAuthGuard, RolesGuard)
   @Roles('user', 'admin')
   @Post()
-  create(@Body() createDto: CreateCitaDto, @Req() req: any) {
-    createDto.usuarioId = req.user.userId;
+  create(
+    @Body() createDto: CreateCitaDto,
+    @Req() req: Request & { user?: AuthUser },
+  ) {
+    if (req.user) {
+      createDto.usuarioId = req.user.userId;
+    }
     return this.citaService.create(createDto);
   }
 
