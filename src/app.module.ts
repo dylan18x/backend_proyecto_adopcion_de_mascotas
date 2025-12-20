@@ -16,6 +16,10 @@ import { ConsultaModule } from './consulta/consulta.module';
 import { CitaModule } from './cita/cita.module';
 import { AuthModule } from './auth/auth.module';
 
+import { PagoModule } from './pago/pago.module';
+import { FacturaModule } from './factura/factura.module';
+import { HistorialMedicoModule } from './historial_medico/historial_medico.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -29,25 +33,7 @@ import { AuthModule } from './auth/auth.module';
       database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
-      // ssl: { rejectUnauthorized: false },
     }),
 
     MongooseModule.forRoot(
-      process.env.MONGO_URI || 'mongodb://localhost:27017/adoptiondb',
-    ),
-
-    ClientesModule,
-    MascotasModule,
-    VeterinariosModule,
-    MailModule,
-
-    RecetasModule,
-    VacunasModule,
-    VacunacionesModule,
-
-    ConsultaModule,
-    CitaModule,
-    AuthModule,
-  ],
-})
-export class AppModule {}
+      process.env.MONGO_URI || 'mongodb://lo_
