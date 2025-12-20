@@ -1,17 +1,12 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class Pago {
   @PrimaryGeneratedColumn()
   id_pago: number;
 
-  @CreateDateColumn({ type: 'date' })
-  fecha: Date;
+  @Column({ type: 'date', default: () => 'CURRENT_DATE' })
+  fecha: string;
 
   @Column('decimal', { precision: 10, scale: 2 })
   monto: number;

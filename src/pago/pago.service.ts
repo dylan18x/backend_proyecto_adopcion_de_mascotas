@@ -2,21 +2,33 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Pago } from './entities/pago.entity';
-import { CreatePagoDto } from './dto/create-pago.dto';
+
 
 @Injectable()
 export class PagoService {
   constructor(
     @InjectRepository(Pago)
-    private pagoRepository: Repository<Pago>,
+    private pagoRepo: Repository<Pago>,
   ) {}
 
-  create(dto: CreatePagoDto) {
-    const pago = this.pagoRepository.create(dto);
-    return this.pagoRepository.save(pago);
+  create(data: Partial<Pago>) {
+    const pago = this.pagoRepo.create(data);
+    return this.pagoRepo.save(pago);
   }
 
   findAll() {
-    return this.pagoRepository.find();
+    return this.pagoRepo.find();
+  }
+
+  findOne(id: number) {
+    return this.pagoRepo.findOneBy({ id_pago: id });
+  }
+
+  update(id: number, data: Partial<Pago>) {
+    return this.pagoRepo.update(id, data);
+  }
+
+  remove(id: number) {
+    return this.pagoRepo.delete(id);
   }
 }

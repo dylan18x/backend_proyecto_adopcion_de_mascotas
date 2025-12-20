@@ -6,7 +6,7 @@ import { HistorialMedicoController } from './historial_medico.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([HistorialMedico])],
-  providers: [HistorialMedicoService],
   controllers: [HistorialMedicoController],
+  providers: [HistorialMedicoService],
 })
 export class HistorialMedicoModule {}
