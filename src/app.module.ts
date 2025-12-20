@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AdopcionesModule } from './adopciones/adopciones.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { ClientesModule } from './cliente/cliente.module';
 import { MascotasModule } from './mascota/mascota.module';
-import { Veterinario } from './veterinario/veterinario.entity';
 import { VeterinariosModule } from './veterinario/veterinario.module';
 import { MailModule } from './mail/mail.module';
+
+import { RecetasModule } from './recetas/recetas.module';
+import { VacunasModule } from './vacunas/vacunas.module';
+import { VacunacionesModule } from './vacunaciones/vacunaciones.module';
 
 @Module({
   imports: [
@@ -22,13 +23,14 @@ import { MailModule } from './mail/mail.module';
       database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
-      //ssl: { rejectUnauthorized: false },
-    }),AdopcionesModule,
+    }),
     ClientesModule,
     MascotasModule,
     VeterinariosModule,
-    MailModule
-    ],
-
+    MailModule,
+    RecetasModule,
+    VacunasModule,
+    VacunacionesModule,
+  ],
 })
 export class AppModule {}
