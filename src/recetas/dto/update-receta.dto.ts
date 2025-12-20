@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UpdateRecetaDto {
   @IsString()
@@ -9,11 +9,11 @@ export class UpdateRecetaDto {
    @IsOptional()
    duracion: string; 
  
-   @IsString()
+   @IsNumber()
    @IsOptional()
    id_consulta: number;
  
-   @IsString()
+   @IsNumber()
    @IsOptional()
    id_medicamento: number;
 }

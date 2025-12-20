@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('categories')
+@Entity('recetas')
 export class Receta {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -16,4 +16,5 @@ export class Receta {
 
   @Column()
   id_medicamento: number;
+
 }

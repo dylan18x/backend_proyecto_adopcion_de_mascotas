@@ -1,12 +1,12 @@
-import { IsString } from 'class-validator';
+import { IsDate, IsNumber, IsString } from 'class-validator';
 
 export class CreateVacunacionDto {
-  @IsString()
+  @IsDate()
     fecha: Date;
   
-    @IsString()
+    @IsNumber()
     id_mascota: number; 
   
-    @IsString()
+    @IsNumber()
     id_vacuna: number; 
 }

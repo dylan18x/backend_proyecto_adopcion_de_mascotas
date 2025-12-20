@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
 export class CreateRecetaDto {
   @IsString()
@@ -7,9 +7,9 @@ export class CreateRecetaDto {
    @IsString()
    duracion: string; 
  
-   @IsString()
+   @IsNumber()
    id_consulta: number;
  
-   @IsString()
+   @IsNumber()
    id_medicamento: number;
 }

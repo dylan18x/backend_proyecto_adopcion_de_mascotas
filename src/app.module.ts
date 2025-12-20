@@ -5,6 +5,9 @@ import { AdopcionesModule } from './adopciones/adopciones.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CitasModule } from './citas/citas.module';
+import { RecetasModule } from './recetas/recetas.module';
+import { VacunasModule } from './vacunas/vacunas.module';
+import { VacunacionesModule } from './vacunaciones/vacunaciones.module';
 
 @Module({
   imports: [
@@ -19,7 +22,7 @@ import { CitasModule } from './citas/citas.module';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
       /*ssl: { rejectUnauthorized: false },*/
-    }),AdopcionesModule, CitasModule],
+    }),AdopcionesModule, CitasModule, RecetasModule, VacunasModule, VacunacionesModule],
 
 })
 export class AppModule {}
