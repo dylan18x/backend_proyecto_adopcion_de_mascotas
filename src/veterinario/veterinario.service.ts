@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Veterinario } from './veterinario.entity';
 import { CreateVeterinarioDto } from './dto/create-veterinario.dto';
 import { UpdateVeterinarioDto } from './dto/update-veterinario.dto';
+import { paginate, IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class VeterinariosService {
@@ -17,9 +18,12 @@ export class VeterinariosService {
     return this.veterinarioRepository.save(veterinario);
   }
 
-  findAll() {
-    return this.veterinarioRepository.find();
-  }
+  async findAll(options: IPaginationOptions):Promise<Pagination<Veterinario>> {
+  const queryBuilder = this.veterinarioRepository.createQueryBuilder('veterinario');
+  queryBuilder.orderBy('veterinario.nombre', 'ASC'); // Opcional
+  return paginate<Veterinario>(queryBuilder, options);
+}
+
 
   findOne(id: string) {
     return this.veterinarioRepository.findOne({ where: { id } });

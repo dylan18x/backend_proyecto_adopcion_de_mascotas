@@ -5,6 +5,8 @@ import { Mascota } from './mascota.entity';
 import { CreateMascotaDto } from './dto/create-mascota.dto';
 import { Cliente } from 'src/cliente/cliente.entity';
 import { UpdateMascotaDto } from './dto/update-mascota.dto';
+import { paginate, IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
+
 
 @Injectable()
 export class MascotasService {
@@ -23,26 +25,24 @@ export class MascotasService {
   ) {}
 
   async create(createMascotaDto: CreateMascotaDto) {
-    const cliente = await this.clienteRepository.findOne({
-      where: { id: createMascotaDto.cliente_id },
-    });
-
-    if (!cliente) {
-      throw new NotFoundException('Cliente no existe');
-    }
-
-    const mascota = this.mascotaRepository.create({
-      nombre: createMascotaDto.nombre,
-      especie: createMascotaDto.especie,
-      raza: createMascotaDto.raza,
-      cliente,
-    });
-
-    return this.mascotaRepository.save(mascota);
+  const cliente = await this.clienteRepository.findOne({
+    where: { id: createMascotaDto.id_cliente }, 
+  });
+  if (!cliente) {
+    throw new NotFoundException('Cliente no existe');
   }
-
-  findAll() {
-    return this.mascotaRepository.find({ relations: ['cliente'] });
+  const mascota = this.mascotaRepository.create({
+    nombre: createMascotaDto.nombre,
+    especie: createMascotaDto.especie,
+    raza: createMascotaDto.raza,
+    cliente,
+  });
+  return this.mascotaRepository.save(mascota);
+}
+  async findAll(options: IPaginationOptions):Promise<Pagination<Mascota>> {
+    const queryBuilder = this.mascotaRepository.createQueryBuilder('mascota');
+    queryBuilder.orderBy('mascota.nombre', 'ASC'); // Opcional
+    return paginate<Mascota>(queryBuilder, options);
   }
 
   findOne(id: string) {

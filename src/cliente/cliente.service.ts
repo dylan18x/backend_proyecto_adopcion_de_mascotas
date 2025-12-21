@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { Cliente } from './cliente.entity';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
-import * as bcrypt from 'bcrypt';
+import { paginate, IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class ClientesService {
@@ -18,9 +18,12 @@ export class ClientesService {
     return this.clienteRepository.save(cliente);
   }
 
-  findAll() {
-    return this.clienteRepository.find();
+  async findAll(options: IPaginationOptions):Promise<Pagination<Cliente>> {
+    const queryBuilder = this.clienteRepository.createQueryBuilder('cliente');
+    queryBuilder.orderBy('cliente.nombre', 'ASC');
+    return paginate<Cliente>(queryBuilder, options);
   }
+
 
   findOne(id: string) {
     return this.clienteRepository.findOne({ where: { id } });
