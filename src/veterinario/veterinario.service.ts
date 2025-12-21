@@ -18,10 +18,19 @@ export class VeterinariosService {
     return await this.veterinarioRepository.save(veterinario);
   }
 
+<<<<<<< HEAD
   async findAll(options: IPaginationOptions): Promise<Pagination<Veterinario>> {
     const queryBuilder = this.veterinarioRepository.createQueryBuilder('vet');
     return paginate<Veterinario>(queryBuilder, options);
   }
+=======
+  async findAll(options: IPaginationOptions):Promise<Pagination<Veterinario>> {
+  const queryBuilder = this.veterinarioRepository.createQueryBuilder('veterinario');
+  queryBuilder.orderBy('veterinario.nombre', 'ASC'); // Opcional
+  return paginate<Veterinario>(queryBuilder, options);
+}
+
+>>>>>>> ae5a2eb2900d50aca5d01410c5def00ce708f4ee
 
   async findOne(id: string) {
     const veterinario = await this.veterinarioRepository.findOne({ where: { id } });

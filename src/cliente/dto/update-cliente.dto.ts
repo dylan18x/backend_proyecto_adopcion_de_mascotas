@@ -16,4 +16,8 @@ export class UpdateClienteDto {
   @IsOptional()
   @IsString()
   direccion?: string;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> ae5a2eb2900d50aca5d01410c5def00ce708f4ee

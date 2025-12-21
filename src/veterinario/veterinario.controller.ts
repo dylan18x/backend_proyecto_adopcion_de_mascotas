@@ -1,9 +1,18 @@
+<<<<<<< HEAD
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { VeterinariosService } from './veterinario.service';
 import { CreateVeterinarioDto } from './dto/create-veterinario.dto';
 import { UpdateVeterinarioDto } from './dto/update-veterinario.dto';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { Veterinario } from './veterinario.entity';
+=======
+import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
+import { VeterinariosService } from './veterinario.service';
+import { CreateVeterinarioDto } from './dto/create-veterinario.dto';
+import { UpdateVeterinarioDto } from './dto/update-veterinario.dto';
+import { Veterinario } from './veterinario.entity';
+import { Pagination } from 'nestjs-typeorm-paginate';
+>>>>>>> ae5a2eb2900d50aca5d01410c5def00ce708f4ee
 
 @Controller('veterinarios')
 export class VeterinariosController {
@@ -20,7 +29,11 @@ export class VeterinariosController {
     @Query('limit') limit = 10,
   ): Promise<Pagination<Veterinario>> {
     limit = limit > 100 ? 100 : limit;
+<<<<<<< HEAD
     return this.veterinarioService.findAll({ page, limit });
+=======
+    return this.veterinariosService.findAll({ page, limit });
+>>>>>>> ae5a2eb2900d50aca5d01410c5def00ce708f4ee
   }
 
   @Get(':id')
