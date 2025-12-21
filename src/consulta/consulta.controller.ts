@@ -6,6 +6,7 @@ import { Consulta } from './consulta.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { Roles } from 'src/auth/roles.decorator';
 import { UserRole } from 'src/users/user.entity';
+import { Public } from 'src/auth/public.decorator';
 
 @Controller('consultas')
 export class ConsultaController {
@@ -16,7 +17,7 @@ export class ConsultaController {
   create(@Body() createConsultaDto: CreateConsultaDto) {
     return this.consultaService.create(createConsultaDto);
   }
-
+  @Public()
   @Get()
   findAll(
     @Query('page') page = 1,
@@ -25,7 +26,7 @@ export class ConsultaController {
     limit = limit > 100 ? 100 : limit;
     return this.consultaService.findAll({ page, limit });
   }
-
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.consultaService.findOne(id);

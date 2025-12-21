@@ -6,17 +6,18 @@ import { Cita } from './cita.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { Roles } from 'src/auth/roles.decorator';
 import { UserRole } from 'src/users/user.entity';
+import { Public } from 'src/auth/public.decorator';
 
 @Controller('citas')
 export class CitaController {
   constructor(private readonly citaService: CitaService) {}
-  
+
   @Roles(UserRole.ADMIN)
   @Post()
   create(@Body() createCitaDto: CreateCitaDto) {
     return this.citaService.create(createCitaDto);
   }
-
+  @Public()
   @Get()
   findAll(
     @Query('page') page = 1,
@@ -25,7 +26,7 @@ export class CitaController {
     limit = limit > 100 ? 100 : limit;
     return this.citaService.findAll({ page, limit });
   }
-
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.citaService.findOne(id);

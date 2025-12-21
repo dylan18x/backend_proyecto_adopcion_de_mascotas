@@ -6,6 +6,7 @@ import { Veterinario } from './veterinario.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { Roles } from 'src/auth/roles.decorator';
 import { UserRole } from 'src/users/user.entity';
+import { Public } from 'src/auth/public.decorator';
 
 @Controller('veterinarios')
 export class VeterinariosController {
@@ -17,6 +18,7 @@ export class VeterinariosController {
     return this.veterinarioService.create(createVeterinarioDto);
   }
 
+  @Public()
   @Get()
   findAll(
     @Query('page') page = 1,
@@ -26,6 +28,7 @@ export class VeterinariosController {
     return this.veterinarioService.findAll({ page, limit });
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.veterinarioService.findOne(id);

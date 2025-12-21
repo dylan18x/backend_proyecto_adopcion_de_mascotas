@@ -4,6 +4,7 @@ import { CreateFacturaDto } from './dto/create-factura.dto';
 import { UpdateFacturaDto } from './dto/update-factura.dto';
 import { Roles } from 'src/auth/roles.decorator';
 import { UserRole } from 'src/users/user.entity';
+import { Public } from 'src/auth/public.decorator';
 
 @Controller('facturas')
 export class FacturaController {
@@ -14,12 +15,12 @@ export class FacturaController {
   create(@Body() dto: CreateFacturaDto) {
     return this.facturaService.create(dto);
   }
-
+  @Public()
   @Get()
   findAll(@Query('page') page = 1, @Query('limit') limit = 10) {
     return this.facturaService.findAll({ page, limit });
   }
-
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.facturaService.findOne(id);

@@ -6,6 +6,7 @@ import { Vacunacion } from './vacunacion.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { Roles } from 'src/auth/roles.decorator';
 import { UserRole } from 'src/users/user.entity';
+import { Public } from 'src/auth/public.decorator';
 
 @Controller('vacunaciones')
 export class VacunacionesController {
@@ -17,6 +18,7 @@ export class VacunacionesController {
     return this.vacunacionesService.create(dto);
   }
 
+  @Public()
   @Get()
   findAll(
     @Query('page') page = 1,
@@ -26,6 +28,7 @@ export class VacunacionesController {
     return this.vacunacionesService.findAll({ page, limit });
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.vacunacionesService.findOne(id);

@@ -6,6 +6,7 @@ import { Cliente } from './cliente.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { Roles } from 'src/auth/roles.decorator';
 import { UserRole } from 'src/users/user.entity';
+import { Public } from 'src/auth/public.decorator';
 
 @Controller('clientes')
 export class ClientesController {
@@ -15,7 +16,7 @@ export class ClientesController {
   create(@Body() createClienteDto: CreateClienteDto) {
     return this.clienteService.create(createClienteDto);
   }
-
+  @Public()
   @Get()
     findAll(
       @Query('page') page = 1,
@@ -24,7 +25,7 @@ export class ClientesController {
       limit = limit > 100 ? 100 : limit;
       return this.clienteService.findAll({ page, limit });
   }
-
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.clienteService.findOne(id);

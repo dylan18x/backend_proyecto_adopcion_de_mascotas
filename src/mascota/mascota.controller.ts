@@ -6,6 +6,7 @@ import { Mascota } from './mascota.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { Roles } from 'src/auth/roles.decorator';
 import { UserRole } from 'src/users/user.entity';
+import { Public } from 'src/auth/public.decorator';
 
 @Controller('mascotas')
 export class MascotasController {
@@ -16,7 +17,7 @@ export class MascotasController {
   create(@Body() createMascotaDto: CreateMascotaDto) {
     return this.mascotaService.create(createMascotaDto);
   }
-
+  @Public()
   @Get()
   findAll(
     @Query('page') page = 1,
@@ -25,7 +26,7 @@ export class MascotasController {
     limit = limit > 100 ? 100 : limit;
     return this.mascotaService.findAll({ page, limit });
   }
-
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.mascotaService.findOne(id);

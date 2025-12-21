@@ -6,6 +6,7 @@ import { HistorialMedico } from './historial-medico.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { Roles } from 'src/auth/roles.decorator';
 import { UserRole } from 'src/users/user.entity';
+import { Public } from 'src/auth/public.decorator';
 
 @Controller('historial-medico')
 export class HistorialMedicoController {
@@ -16,7 +17,7 @@ export class HistorialMedicoController {
   create(@Body() dto: CreateHistorialMedicoDto) {
     return this.historialService.create(dto);
   }
-
+  @Public()
   @Get()
   findAll(
     @Query('page') page = 1,
@@ -25,7 +26,8 @@ export class HistorialMedicoController {
     limit = limit > 100 ? 100 : limit;
     return this.historialService.findAll({ page, limit });
   }
-
+  
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.historialService.findOne(id);

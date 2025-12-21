@@ -6,6 +6,7 @@ import { Vacuna } from './vacuna.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { Roles } from 'src/auth/roles.decorator';
 import { UserRole } from 'src/users/user.entity';
+import { Public } from 'src/auth/public.decorator';
 
 @Controller('vacunas')
 export class VacunasController {
@@ -17,6 +18,7 @@ export class VacunasController {
     return this.vacunaService.create(dto);
   }
 
+  @Public()
   @Get()
   findAll(
     @Query('page') page = 1,
@@ -26,6 +28,7 @@ export class VacunasController {
     return this.vacunaService.findAll({ page, limit });
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.vacunaService.findOne(id);
@@ -36,7 +39,7 @@ export class VacunasController {
   update(@Param('id') id: string, @Body() dto: UpdateVacunaDto) {
     return this.vacunaService.update(id, dto);
   }
-  
+
   @Roles(UserRole.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: string) {

@@ -17,7 +17,6 @@ import { FacturaModule } from './factura/factura.module';
 import { MedicamentosModule } from './medicamentos/medicamentos.module';
 import { HistorialMedicoModule } from './historial_medico/historial-medico.module';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),

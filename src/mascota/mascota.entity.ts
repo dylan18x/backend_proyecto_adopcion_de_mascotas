@@ -15,11 +15,6 @@ export class Mascota {
   @Column()
   raza: string;
 
-  @Column()
-  edad: number;
-
-  @Column()
-  id_cliente: string;
 
   @ManyToOne(() => Cliente, { nullable: false })
   @JoinColumn({ name: 'id_cliente' })

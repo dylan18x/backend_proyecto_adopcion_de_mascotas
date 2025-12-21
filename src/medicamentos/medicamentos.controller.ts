@@ -6,6 +6,7 @@ import { UpdateMedicamentoDto } from './dto/update-medicamento.dto';
 import { Medicamento } from './medicamento.entity';
 import { Roles } from 'src/auth/roles.decorator';
 import { UserRole } from 'src/users/user.entity';
+import { Public } from 'src/auth/public.decorator';
 
 @Controller('medicamentos')
 export class MedicamentosController {
@@ -19,6 +20,7 @@ export class MedicamentosController {
     return this.medicamentosService.create(createDto);
   }
 
+  @Public()
   @Get()
   findAll(
     @Query('page') page = 1,
@@ -27,7 +29,7 @@ export class MedicamentosController {
     limit = limit > 100 ? 100 : limit;
     return this.medicamentosService.findAll({ page, limit });
   }
-
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.medicamentosService.findOne(id);

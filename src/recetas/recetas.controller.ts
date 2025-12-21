@@ -6,6 +6,7 @@ import { Receta } from './receta.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { Roles } from 'src/auth/roles.decorator';
 import { UserRole } from 'src/users/user.entity';
+import { Public } from 'src/auth/public.decorator';
 
 @Controller('recetas')
 export class RecetasController {
@@ -17,6 +18,7 @@ export class RecetasController {
     return this.recetaService.create(createRecetaDto);
   }
 
+  @Public()
   @Get()
   findAll(
     @Query('page') page = 1,
@@ -26,6 +28,7 @@ export class RecetasController {
     return this.recetaService.findAll({ page, limit });
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.recetaService.findOne(id);
