@@ -2,24 +2,21 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MongooseModule } from '@nestjs/mongoose';
-
 import { ClientesModule } from './cliente/cliente.module';
 import { MascotasModule } from './mascota/mascota.module';
 import { VeterinariosModule } from './veterinario/veterinario.module';
 import { MailModule } from './mail/mail.module';
-
 import { RecetasModule } from './recetas/recetas.module';
+import { PagoModule } from './pago/pago.module';
 import { VacunasModule } from './vacunas/vacunas.module';
 import { VacunacionesModule } from './vacunaciones/vacunaciones.module';
-
 import { ConsultaModule } from './consulta/consulta.module';
 import { CitaModule } from './cita/cita.module';
 import { AuthModule } from './auth/auth.module';
-
-import { PagoModule } from './pago/pago.module';
 import { FacturaModule } from './factura/factura.module';
 import { MedicamentosModule } from './medicamentos/medicamentos.module';
 import { HistorialMedicoModule } from './historial_medico/historial-medico.module';
+
 
 @Module({
   imports: [

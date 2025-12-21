@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Vacuna } from './vacuna.entity';
@@ -20,27 +20,26 @@ export class VacunasService {
 
   async findAll(options: IPaginationOptions): Promise<Pagination<Vacuna>>  {
     const queryBuilder = this.vacunaRepository.createQueryBuilder('vacuna');
-    queryBuilder.orderBy('vacuna.nombre', 'ASC'); // Opcional
+    queryBuilder.orderBy('vacuna.nombre', 'ASC'); 
     return paginate<Vacuna>(queryBuilder, options);
   }
 
-
-  findOne(id: string) {
-    return this.vacunaRepository.findOne({ where: { id } });
+  async findOne(id: string) {
+    const vacuna = await this.vacunaRepository.findOne({ where: { id } });
+    if (!vacuna) {
+      throw new NotFoundException('Vacuna no encontrada');
+    }
+    return vacuna;
   }
 
   async update(id: string, dto: UpdateVacunaDto) {
-    const vacuna = await this.findOne(id);
-    if (!vacuna) return null;
-
+    const vacuna = await this.findOne(id); 
     Object.assign(vacuna, dto);
     return this.vacunaRepository.save(vacuna);
   }
 
   async remove(id: string) {
-    const vacuna = await this.findOne(id);
-    if (!vacuna) return null;
-
+    const vacuna = await this.findOne(id); // 404
     return this.vacunaRepository.remove(vacuna);
   }
 }

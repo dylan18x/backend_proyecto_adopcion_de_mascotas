@@ -20,7 +20,7 @@ export class VeterinariosService {
 
   async findAll(options: IPaginationOptions):Promise<Pagination<Veterinario>> {
   const queryBuilder = this.veterinarioRepository.createQueryBuilder('veterinario');
-  queryBuilder.orderBy('veterinario.nombre', 'ASC'); // Opcional
+  queryBuilder.orderBy('veterinario.nombre', 'ASC'); 
   return paginate<Veterinario>(queryBuilder, options);
 }
 

@@ -4,11 +4,14 @@ import { CreateVacunacionDto } from './dto/create-vacunacion.dto';
 import { UpdateVacunacionDto } from './dto/update-vacunacion.dto';
 import { Vacunacion } from './vacunacion.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
+import { Roles } from 'src/auth/roles.decorator';
+import { UserRole } from 'src/users/user.entity';
 
 @Controller('vacunaciones')
 export class VacunacionesController {
   constructor(private readonly vacunacionesService: VacunacionesService) {}
 
+  @Roles(UserRole.ADMIN)
   @Post()
   create(@Body() dto: CreateVacunacionDto) {
     return this.vacunacionesService.create(dto);
@@ -28,11 +31,13 @@ export class VacunacionesController {
     return this.vacunacionesService.findOne(id);
   }
 
+  @Roles(UserRole.ADMIN)
   @Put(':id')
   update(@Param('id') id: string, @Body() dto: UpdateVacunacionDto) {
     return this.vacunacionesService.update(id, dto);
   }
 
+  @Roles(UserRole.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.vacunacionesService.remove(id);

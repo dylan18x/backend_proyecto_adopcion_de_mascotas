@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Consulta } from './consulta.entity';
@@ -24,22 +24,22 @@ export class ConsultaService {
     return paginate<Consulta>(queryBuilder, options);
   }
 
-  findOne(id: string) {
-    return this.consultaRepository.findOne({ where: { id } });
+  async findOne(id: string) {
+    const consulta = await this.consultaRepository.findOne({ where: { id } });
+    if (!consulta) {
+      throw new NotFoundException('Consulta no encontrada');
+    }
+    return consulta;
   }
 
   async update(id: string, updateConsultaDto: UpdateConsultaDto) {
-    const consulta = await this.consultaRepository.findOne({ where: { id } });
-    if (!consulta) return null;
-
+    const consulta = await this.findOne(id);
     Object.assign(consulta, updateConsultaDto);
     return this.consultaRepository.save(consulta);
   }
 
   async remove(id: string) {
-    const consulta = await this.consultaRepository.findOne({ where: { id } });
-    if (!consulta) return null;
-
+    const consulta = await this.findOne(id);
     return this.consultaRepository.remove(consulta);
   }
 }

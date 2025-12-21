@@ -4,11 +4,14 @@ import { CreateConsultaDto } from './dto/create-consulta.dto';
 import { UpdateConsultaDto } from './dto/update-consulta.dto';
 import { Consulta } from './consulta.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
+import { Roles } from 'src/auth/roles.decorator';
+import { UserRole } from 'src/users/user.entity';
 
 @Controller('consultas')
 export class ConsultaController {
   constructor(private readonly consultaService: ConsultaService) {}
 
+  @Roles(UserRole.ADMIN)
   @Post()
   create(@Body() createConsultaDto: CreateConsultaDto) {
     return this.consultaService.create(createConsultaDto);
@@ -27,12 +30,12 @@ export class ConsultaController {
   findOne(@Param('id') id: string) {
     return this.consultaService.findOne(id);
   }
-
+  @Roles(UserRole.ADMIN)
   @Put(':id')
   update(@Param('id') id: string, @Body() updateConsultaDto: UpdateConsultaDto) {
     return this.consultaService.update(id, updateConsultaDto);
   }
-
+  @Roles(UserRole.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.consultaService.remove(id);

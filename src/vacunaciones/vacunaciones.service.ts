@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Vacunacion } from './vacunacion.entity';
@@ -18,27 +18,28 @@ export class VacunacionesService {
     return this.vacunacionRepository.save(vacunacion);
   }
 
-  async findAll(options: IPaginationOptions): Promise<Pagination<Vacunacion>>{
+  findAll(options: IPaginationOptions): Promise<Pagination<Vacunacion>> {
     const queryBuilder = this.vacunacionRepository.createQueryBuilder('vacunacion');
-    queryBuilder.orderBy('vacunacion.fecha', 'ASC'); // Opcional
+    queryBuilder.orderBy('vacunacion.fecha', 'ASC');
     return paginate<Vacunacion>(queryBuilder, options);
   }
 
-
-  findOne(id: string) {
-    return this.vacunacionRepository.findOne({ where: { id } });
+  async findOne(id: string) {
+    const vacunacion = await this.vacunacionRepository.findOne({ where: { id } });
+    if (!vacunacion) {
+      throw new NotFoundException('Vacunación no encontrada');
+    }
+    return vacunacion;
   }
 
   async update(id: string, updateVacunacionDto: UpdateVacunacionDto) {
-    const vacunacion = await this.vacunacionRepository.findOne({ where: { id } });
-    if (!vacunacion) return null;
+    const vacunacion = await this.findOne(id); 
     Object.assign(vacunacion, updateVacunacionDto);
     return this.vacunacionRepository.save(vacunacion);
   }
 
   async remove(id: string) {
-    const vacunacion = await this.vacunacionRepository.findOne({ where: { id } });
-    if (!vacunacion) return null;
+    const vacunacion = await this.findOne(id); 
     return this.vacunacionRepository.remove(vacunacion);
   }
 }

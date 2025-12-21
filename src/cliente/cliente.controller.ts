@@ -4,11 +4,13 @@ import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
 import { Cliente } from './cliente.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
+import { Roles } from 'src/auth/roles.decorator';
+import { UserRole } from 'src/users/user.entity';
 
 @Controller('clientes')
 export class ClientesController {
   constructor(private readonly clienteService: ClientesService) {}
-
+  @Roles(UserRole.ADMIN)
   @Post()
   create(@Body() createClienteDto: CreateClienteDto) {
     return this.clienteService.create(createClienteDto);
@@ -27,12 +29,12 @@ export class ClientesController {
   findOne(@Param('id') id: string) {
     return this.clienteService.findOne(id);
   }
-
-  @Patch(':id')
+  @Roles(UserRole.ADMIN)
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateClienteDto: UpdateClienteDto) {
     return this.clienteService.update(id, updateClienteDto);
   }
-
+  @Roles(UserRole.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.clienteService.remove(id);

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Receta } from './receta.entity';
@@ -24,23 +24,22 @@ export class RecetasService {
     return paginate<Receta>(queryBuilder, options);
   }
 
-  findOne(id: string) {
-    return this.recetaRepository.findOne({ where: { id } });
+  async findOne(id: string) {
+    const receta = await this.recetaRepository.findOne({ where: { id } });
+    if (!receta) {
+      throw new NotFoundException('Receta no encontrada');
+    }
+    return receta;
   }
-  
 
   async update(id: string, updateRecetaDto: UpdateRecetaDto) {
-    const receta = await this.recetaRepository.findOne({ where: { id } });
-    if (!receta) return null;
-
+    const receta = await this.findOne(id);
     Object.assign(receta, updateRecetaDto);
     return this.recetaRepository.save(receta);
   }
 
   async remove(id: string) {
-    const receta = await this.recetaRepository.findOne({ where: { id } });
-    if (!receta) return null;
-
+    const receta = await this.findOne(id);
     return this.recetaRepository.remove(receta);
   }
 }

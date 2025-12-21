@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Cita } from './cita.entity';
@@ -24,21 +24,35 @@ export class CitaService {
     return paginate<Cita>(queryBuilder, options);
   }
 
-  findOne(id: string) {
-    return this.citaRepository.findOne({ where: { id_cita: id  } });
+  async findOne(id: string) {
+    const cita = await this.citaRepository.findOne({
+      where: { id_cita: id },
+    });
+    if (!cita) {
+      throw new NotFoundException('Cita no encontrada');
+    }
+    return cita;
   }
 
   async update(id: string, updateCitaDto: UpdateCitaDto) {
-    const cita = await this.citaRepository.findOne({ where: { id_cita: id } });
-    if (!cita) return null;
+    const cita = await this.citaRepository.findOne({
+      where: { id_cita: id },
+    });
+    if (!cita) {
+      throw new NotFoundException('Cita no encontrada');
+    }
 
     Object.assign(cita, updateCitaDto);
     return this.citaRepository.save(cita);
   }
 
   async remove(id: string) {
-    const cita = await this.citaRepository.findOne({ where: { id_cita: id } });
-    if (!cita) return null;
+    const cita = await this.citaRepository.findOne({
+      where: { id_cita: id },
+    });
+    if (!cita) {
+      throw new NotFoundException('Cita no encontrada');
+    }
 
     return this.citaRepository.remove(cita);
   }
