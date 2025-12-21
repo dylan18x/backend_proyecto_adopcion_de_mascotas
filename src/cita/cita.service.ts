@@ -25,11 +25,11 @@ export class CitaService {
   }
 
   findOne(id: string) {
-    return this.citaRepository.findOne({ where: { id_cita:id } });
+    return this.citaRepository.findOne({ where: { id_cita: id  } });
   }
 
   async update(id: string, updateCitaDto: UpdateCitaDto) {
-    const cita = await this.citaRepository.findOne({ where: { id_cita:id } });
+    const cita = await this.citaRepository.findOne({ where: { id_cita: id } });
     if (!cita) return null;
 
     Object.assign(cita, updateCitaDto);
@@ -37,7 +37,7 @@ export class CitaService {
   }
 
   async remove(id: string) {
-    const cita = await this.citaRepository.findOne({ where: { id_cita:id } });
+    const cita = await this.citaRepository.findOne({ where: { id_cita: id } });
     if (!cita) return null;
 
     return this.citaRepository.remove(cita);

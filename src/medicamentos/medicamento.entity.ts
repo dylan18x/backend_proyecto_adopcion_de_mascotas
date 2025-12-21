@@ -11,7 +11,6 @@ export class Medicamento {
   @Column()
   descripcion: string;
 
-  @Column({type: 'decimal', precision: 10, scale: 2,default: 0})
+  @Column({type: 'decimal',precision: 10,scale: 2,default: 0,})
   precio: number;
 }
-

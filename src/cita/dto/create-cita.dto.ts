@@ -11,7 +11,8 @@ export class CreateCitaDto {
 
   @IsUUID() 
   id_mascota: string;
-  
+
   @IsUUID() 
   id_veterinario: string;
 }
+

@@ -36,7 +36,6 @@ import { MedicamentosModule } from './medicamentos/medicamentos.module';
 
       synchronize: true,
     }),
-
     MongooseModule.forRoot(
       process.env.MONGO_URI || 'mongodb://localhost:27017/adoptiondb',
     ),
