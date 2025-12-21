@@ -18,12 +18,8 @@ import { AuthModule } from './auth/auth.module';
 
 import { PagoModule } from './pago/pago.module';
 import { FacturaModule } from './factura/factura.module';
-<<<<<<< HEAD
-import { HistorialMedicoModule } from './historial_medico/historial-medico.module';
-=======
-import { HistorialMedicoModule } from './historial_medico/historial_medico.module';
->>>>>>> ae5a2eb2900d50aca5d01410c5def00ce708f4ee
 import { MedicamentosModule } from './medicamentos/medicamentos.module';
+import { HistorialMedicoModule } from './historial_medico/historial-medico.module';
 
 @Module({
   imports: [

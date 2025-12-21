@@ -1,19 +1,5 @@
-<<<<<<< HEAD
-import { Controller,Get,Post,Put,Delete,Body,Param,Query,} from '@nestjs/common';
-=======
-import {
-  Controller,
-  Get,
-  Post,
-  Put,
-  Delete,
-  Body,
-  Param,
-  Query,
-} from '@nestjs/common';
->>>>>>> ae5a2eb2900d50aca5d01410c5def00ce708f4ee
+import {Controller,Get,Post,Put,Delete,Body,Param,Query,} from '@nestjs/common';
 import { Pagination } from 'nestjs-typeorm-paginate';
-
 import { MedicamentosService } from './medicamentos.service';
 import { CreateMedicamentoDto } from './dto/create-medicamento.dto';
 import { UpdateMedicamentoDto } from './dto/update-medicamento.dto';

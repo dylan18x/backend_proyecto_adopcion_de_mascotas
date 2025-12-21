@@ -18,18 +18,6 @@ export class ClientesService {
     return await this.clienteRepository.save(cliente);
   }
 
-<<<<<<< HEAD
-  async findAll(options: IPaginationOptions): Promise<Pagination<Cliente>> {
-    const queryBuilder = this.clienteRepository.createQueryBuilder('cliente');
-    queryBuilder.orderBy('cliente.nombre', 'ASC'); 
-    return paginate<Cliente>(queryBuilder, options);
-  }
-
-  async findOne(id: string) {
-    const cliente = await this.clienteRepository.findOne({ where: { id } });
-    if (!cliente) throw new NotFoundException('Cliente no encontrado');
-    return cliente;
-=======
   async findAll(options: IPaginationOptions):Promise<Pagination<Cliente>> {
     const queryBuilder = this.clienteRepository.createQueryBuilder('cliente');
     queryBuilder.orderBy('cliente.nombre', 'ASC');
@@ -39,17 +27,18 @@ export class ClientesService {
 
   findOne(id: string) {
     return this.clienteRepository.findOne({ where: { id } });
->>>>>>> ae5a2eb2900d50aca5d01410c5def00ce708f4ee
   }
 
   async update(id: string, updateClienteDto: UpdateClienteDto) {
     const cliente = await this.findOne(id);
+    if (!cliente) throw new NotFoundException
     Object.assign(cliente, updateClienteDto);
     return await this.clienteRepository.save(cliente);
   }
 
   async remove(id: string) {
     const cliente = await this.findOne(id);
+    if (!cliente) throw new NotFoundException
     return await this.clienteRepository.remove(cliente);
   }
 }
