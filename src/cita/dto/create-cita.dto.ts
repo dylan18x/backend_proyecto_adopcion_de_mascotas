@@ -1,21 +1,18 @@
-import { IsString, IsUUID, IsOptional, IsDateString } from 'class-validator';
-
+import { IsString, IsUUID } from 'class-validator';
 export class CreateCitaDto {
-  @IsOptional()
-  @IsUUID()
-  consultaId?: string;
+  @IsString() 
+  fecha: string;
 
-  @IsUUID()
-  usuarioId: string;
+  @IsString() 
+  hora: string;
 
-  @IsDateString()
-  fechaHora: string;
+  @IsString() 
+  motivo: string;
 
-  @IsOptional()
-  @IsString()
-  notas?: string;
+  @IsUUID() 
+  id_mascota: string;
 
-  @IsOptional()
-  @IsString()
-  estado?: string;
+  @IsUUID() 
+  id_veterinario: string;
 }
+

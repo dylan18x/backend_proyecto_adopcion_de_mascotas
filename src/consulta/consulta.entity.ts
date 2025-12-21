@@ -1,29 +1,24 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Cita } from 'src/cita/cita.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
 
-@Entity({ name: 'consultas' })
+@Entity('consulta')
 export class Consulta {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'titulo', length: 255 })
-  titulo: string;
+  @Column()
+  diagnostico: string;
 
-  @Column({ name: 'descripcion', type: 'text', nullable: true })
-  descripcion?: string;
+  @Column()
+  tratamiento: string;
 
-  @Column({ name: 'usuario_id', type: 'uuid' })
-  usuarioId: string;
+  @Column()
+  observaciones: string;
 
+  @Column()
+  id_cita: string;
 
-  @Column({ name: 'mascota_id', type: 'uuid', nullable: true })
-  mascotaId?: string;
-
-  @Column({ name: 'estado', length: 32, default: 'open' })
-  estado: string; 
-
-  @CreateDateColumn({ name: 'creado_en' })
-  creadoEn: Date;
-
-  @UpdateDateColumn({ name: 'actualizado_en' })
-  actualizadoEn: Date;
+  @OneToOne(() => Cita, { nullable: false })
+  @JoinColumn({ name: 'id_cita' })
+  cita: Cita;
 }

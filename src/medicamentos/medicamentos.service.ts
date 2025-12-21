@@ -1,6 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { paginate, IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
+
 import { Medicamento } from './medicamento.entity';
 import { CreateMedicamentoDto } from './dto/create-medicamento.dto';
 import { UpdateMedicamentoDto } from './dto/update-medicamento.dto';
@@ -9,32 +11,46 @@ import { UpdateMedicamentoDto } from './dto/update-medicamento.dto';
 export class MedicamentosService {
   constructor(
     @InjectRepository(Medicamento)
-    private readonly repo: Repository<Medicamento>,
+    private readonly medicamentoRepository: Repository<Medicamento>,
   ) {}
 
-  create(dto: CreateMedicamentoDto) {
-    const m = this.repo.create(dto as any);
-    return this.repo.save(m);
+  async create(createDto: CreateMedicamentoDto) {
+    const medicamento = this.medicamentoRepository.create(createDto);
+    return this.medicamentoRepository.save(medicamento);
   }
 
-  findAll() {
-    return this.repo.find();
+  async findAll(
+    options: IPaginationOptions,
+  ): Promise<Pagination<Medicamento>> {
+    const queryBuilder =
+      this.medicamentoRepository.createQueryBuilder('medicamento');
+
+    queryBuilder.orderBy('medicamento.nombre', 'ASC');
+
+    return paginate<Medicamento>(queryBuilder, options);
   }
 
-  findOne(id: string) {
-    return this.repo.findOne({ where: { id } });
+  async findOne(id: string) {
+    const medicamento = await this.medicamentoRepository.findOne({
+      where: { id },
+    });
+
+    if (!medicamento) {
+      throw new NotFoundException('Medicamento no encontrado');
+    }
+
+    return medicamento;
   }
 
-  async update(id: string, dto: UpdateMedicamentoDto) {
-    const m = await this.repo.findOne({ where: { id } });
-    if (!m) return null;
-    Object.assign(m, dto);
-    return this.repo.save(m);
+  async update(id: string, updateDto: UpdateMedicamentoDto) {
+    const medicamento = await this.findOne(id);
+
+    Object.assign(medicamento, updateDto);
+    return this.medicamentoRepository.save(medicamento);
   }
 
   async remove(id: string) {
-    const m = await this.repo.findOne({ where: { id } });
-    if (!m) return null;
-    return this.repo.remove(m);
+    const medicamento = await this.findOne(id);
+    return this.medicamentoRepository.remove(medicamento);
   }
 }

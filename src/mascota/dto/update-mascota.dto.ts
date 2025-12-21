@@ -1,16 +1,19 @@
-import { IsOptional, IsString , IsNumber} from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class UpdateMascotaDto {
   @IsOptional()
   @IsString()
-  nombre: string;
+  nombre?: string;
 
+  @IsOptional()
   @IsString()
-  especie: string;
+  especie?: string;
 
+  @IsOptional()
   @IsString()
-  raza: string;
+  raza?: string;
 
+  @IsOptional()
   @IsString()
-  id_cliente: string;
+  id_cliente?: string;
 }

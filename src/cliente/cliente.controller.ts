@@ -1,7 +1,9 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
 import { ClientesService } from './cliente.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
+import { Cliente } from './cliente.entity';
+import { Pagination } from 'nestjs-typeorm-paginate';
 
 @Controller('clientes')
 export class ClientesController {
@@ -13,8 +15,12 @@ export class ClientesController {
   }
 
   @Get()
-  findAll() {
-    return this.clientesService.findAll();
+    findAll(
+      @Query('page') page = 1,
+      @Query('limit') limit = 10,
+    ): Promise<Pagination<Cliente>> {
+      limit = limit > 100 ? 100 : limit;
+      return this.clientesService.findAll({ page, limit });
   }
 
   @Get(':id')

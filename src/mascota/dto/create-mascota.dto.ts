@@ -1,17 +1,19 @@
-import { IsString} from 'class-validator';
-import { FindOperator } from 'typeorm';
+import { IsString, IsNotEmpty } from 'class-validator';
 
 export class CreateMascotaDto {
   @IsString()
+  @IsNotEmpty()
   nombre: string;
 
   @IsString()
+  @IsNotEmpty()
   especie: string;
 
   @IsString()
+  @IsNotEmpty()
   raza: string;
 
   @IsString()
-  id_cliente: string;
-    cliente_id: string | FindOperator<string> | undefined;
+  @IsNotEmpty()
+  id_cliente: string; 
 }

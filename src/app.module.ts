@@ -19,6 +19,7 @@ import { AuthModule } from './auth/auth.module';
 import { PagoModule } from './pago/pago.module';
 import { FacturaModule } from './factura/factura.module';
 import { HistorialMedicoModule } from './historial_medico/historial_medico.module';
+import { MedicamentosModule } from './medicamentos/medicamentos.module';
 
 @Module({
   imports: [
@@ -32,8 +33,29 @@ import { HistorialMedicoModule } from './historial_medico/historial_medico.modul
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
+
       synchronize: true,
     }),
-
     MongooseModule.forRoot(
-      process.env.MONGO_URI || 'mongodb://lo_
+      process.env.MONGO_URI || 'mongodb://localhost:27017/adoptiondb',
+    ),
+
+    ClientesModule,
+    MascotasModule,
+    VeterinariosModule,
+    MailModule,
+    MedicamentosModule,
+    RecetasModule,
+    VacunasModule,
+    VacunacionesModule,
+
+    ConsultaModule,
+    CitaModule,
+    AuthModule,
+
+    PagoModule,
+    FacturaModule,
+    HistorialMedicoModule,
+  ],
+})
+export class AppModule {}

@@ -1,69 +1,45 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Like } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Consulta } from './consulta.entity';
 import { CreateConsultaDto } from './dto/create-consulta.dto';
 import { UpdateConsultaDto } from './dto/update-consulta.dto';
-
-type QueryParams = {
-  page?: string | number;
-  limit?: string | number;
-  search?: string;
-  userId?: string;
-};
+import { paginate, IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class ConsultaService {
   constructor(
     @InjectRepository(Consulta)
-    private consultaRepository: Repository<Consulta>,
+    private readonly consultaRepository: Repository<Consulta>,
   ) {}
 
-  async create(createDto: CreateConsultaDto) {
-    const consulta = this.consultaRepository.create(
-      createDto as Partial<Consulta>,
-    );
-
+  create(createConsultaDto: CreateConsultaDto) {
+    const consulta = this.consultaRepository.create(createConsultaDto);
     return this.consultaRepository.save(consulta);
   }
 
-  async findAll(query: QueryParams) {
-    const page = parseInt(String(query.page ?? '1'), 10) || 1;
-    const limit = parseInt(String(query.limit ?? '10'), 10) || 10;
-    const skip = (page - 1) * limit;
-
-    const where = {
-      ...(query.search ? { titulo: Like(`%${query.search}%`) } : {}),
-      ...(query.userId ? { usuarioId: query.userId } : {}),
-    };
-
-    const [items, total] = await this.consultaRepository.findAndCount({
-      where,
-      take: limit,
-      skip,
-      order: { creadoEn: 'DESC' },
-    });
-
-    return {
-      items,
-      meta: { total, page, limit },
-    };
+  async findAll(options: IPaginationOptions): Promise<Pagination<Consulta>> {
+    const queryBuilder = this.consultaRepository.createQueryBuilder('consulta');
+    queryBuilder.orderBy('consulta.id', 'ASC');
+    return paginate<Consulta>(queryBuilder, options);
   }
 
-  async findOne(id: string) {
-    const item = await this.consultaRepository.findOne({ where: { id } });
-    if (!item) throw new NotFoundException('Consulta no encontrada');
-    return item;
+  findOne(id: string) {
+    return this.consultaRepository.findOne({ where: { id } });
   }
 
-  async update(id: string, updateDto: UpdateConsultaDto) {
-    const item = await this.findOne(id);
-    Object.assign(item, updateDto);
-    return this.consultaRepository.save(item);
+  async update(id: string, updateConsultaDto: UpdateConsultaDto) {
+    const consulta = await this.consultaRepository.findOne({ where: { id } });
+    if (!consulta) return null;
+
+    Object.assign(consulta, updateConsultaDto);
+    return this.consultaRepository.save(consulta);
   }
 
   async remove(id: string) {
-    const item = await this.findOne(id);
-    return this.consultaRepository.remove(item);
+    const consulta = await this.consultaRepository.findOne({ where: { id } });
+    if (!consulta) return null;
+
+    return this.consultaRepository.remove(consulta);
   }
 }

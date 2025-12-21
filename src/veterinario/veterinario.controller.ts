@@ -1,7 +1,9 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
 import { VeterinariosService } from './veterinario.service';
 import { CreateVeterinarioDto } from './dto/create-veterinario.dto';
 import { UpdateVeterinarioDto } from './dto/update-veterinario.dto';
+import { Veterinario } from './veterinario.entity';
+import { Pagination } from 'nestjs-typeorm-paginate';
 
 @Controller('veterinarios')
 export class VeterinariosController {
@@ -13,8 +15,12 @@ export class VeterinariosController {
   }
 
   @Get()
-  findAll() {
-    return this.veterinariosService.findAll();
+  findAll(
+    @Query('page') page = 1,
+    @Query('limit') limit = 10,
+  ): Promise<Pagination<Veterinario>> {
+    limit = limit > 100 ? 100 : limit;
+    return this.veterinariosService.findAll({ page, limit });
   }
 
   @Get(':id')
