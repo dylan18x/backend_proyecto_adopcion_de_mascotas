@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { HistorialMedicoController } from './historial_medico.controller';
+import { HistorialMedicoController } from './historial-medico.controller';
 
 describe('HistorialMedicoController', () => {
   let controller: HistorialMedicoController;

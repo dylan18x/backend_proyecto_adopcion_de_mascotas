@@ -1,34 +1,40 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
 import { VacunasService } from './vacunas.service';
 import { CreateVacunaDto } from './dto/create-vacuna.dto';
 import { UpdateVacunaDto } from './dto/update-vacuna.dto';
+import { Vacuna } from './vacuna.entity';
+import { Pagination } from 'nestjs-typeorm-paginate';
 
 @Controller('vacunas')
 export class VacunasController {
-  constructor(private readonly vacunasService: VacunasService) {}
+  constructor(private readonly vacunaService: VacunasService) {}
 
   @Post()
-  create(@Body() createVacunaDto: CreateVacunaDto) {
-    return this.vacunasService.create(createVacunaDto);
+  create(@Body() dto: CreateVacunaDto) {
+    return this.vacunaService.create(dto);
   }
 
   @Get()
-  findAll() {
-    return this.vacunasService.findAll();
+  findAll(
+    @Query('page') page = 1,
+    @Query('limit') limit = 10,
+  ): Promise<Pagination<Vacuna>> {
+    limit = limit > 100 ? 100 : limit;
+    return this.vacunaService.findAll({ page, limit });
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.vacunasService.findOne(id);
+    return this.vacunaService.findOne(id);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateVacunaDto: UpdateVacunaDto) {
-    return this.vacunasService.update(id, updateVacunaDto);
+  update(@Param('id') id: string, @Body() dto: UpdateVacunaDto) {
+    return this.vacunaService.update(id, dto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.vacunasService.remove(id);
+    return this.vacunaService.remove(id);
   }
 }

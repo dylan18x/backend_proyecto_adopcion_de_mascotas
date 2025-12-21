@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Vacunacion } from './vacunacion.entity';
 import { CreateVacunacionDto } from './dto/create-vacunacion.dto';
 import { UpdateVacunacionDto } from './dto/update-vacunacion.dto';
+import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class VacunacionesService {
@@ -17,9 +18,12 @@ export class VacunacionesService {
     return this.vacunacionRepository.save(vacunacion);
   }
 
-  findAll() {
-    return this.vacunacionRepository.find();
+  async findAll(options: IPaginationOptions): Promise<Pagination<Vacunacion>>{
+    const queryBuilder = this.vacunacionRepository.createQueryBuilder('vacunacion');
+    queryBuilder.orderBy('vacunacion.fecha', 'ASC'); // Opcional
+    return paginate<Vacunacion>(queryBuilder, options);
   }
+
 
   findOne(id: string) {
     return this.vacunacionRepository.findOne({ where: { id } });

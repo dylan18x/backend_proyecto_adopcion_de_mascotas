@@ -1,18 +1,26 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Mascota } from '../mascota/mascota.entity';
+import { Vacuna } from '../vacunas/vacuna.entity';
 
-@Entity('vacunaciones')
+@Entity('vacunacion')
 export class Vacunacion {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  fecha: Date;
+  @Column({ type: 'date' })
+  fecha: string;
 
   @Column()
-  id_mascota: number; 
+  mascotaId: string;
 
   @Column()
-  id_vacuna: number; 
+  vacunaId: string;
 
+  @ManyToOne(() => Mascota, { nullable: false })
+  @JoinColumn({ name: 'mascotaId' })
+  mascota: Mascota;
 
+  @ManyToOne(() => Vacuna, { nullable: false })
+  @JoinColumn({ name: 'vacunaId' })
+  vacuna: Vacuna;
 }

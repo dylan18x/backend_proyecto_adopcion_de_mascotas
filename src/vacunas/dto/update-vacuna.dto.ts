@@ -1,11 +1,11 @@
 import { IsOptional, IsString } from 'class-validator';
 
 export class UpdateVacunaDto {
-  @IsString()
   @IsOptional()
-  nombre: string;
+  @IsString()
+  nombre?: string;
 
-  @IsString()
   @IsOptional()
-  fabricante: string;
+  @IsString()
+  fabricante?: string;
 }

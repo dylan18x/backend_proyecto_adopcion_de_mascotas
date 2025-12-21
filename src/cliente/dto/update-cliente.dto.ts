@@ -3,14 +3,17 @@ import { IsOptional, IsString } from 'class-validator';
 export class UpdateClienteDto {
   @IsOptional()
   @IsString()
-  nombre: string;
+  nombre?: string;
 
+  @IsOptional()
   @IsString()
-  cedula: string;
+  cedula?: string;
 
+  @IsOptional()
   @IsString()
-  telefono: string;
+  telefono?: string;
 
+  @IsOptional()
   @IsString()
-  direccion: string;
+  direccion?: string;
 }

@@ -1,34 +1,40 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { VeterinariosService } from './veterinario.service';
 import { CreateVeterinarioDto } from './dto/create-veterinario.dto';
 import { UpdateVeterinarioDto } from './dto/update-veterinario.dto';
+import { Pagination } from 'nestjs-typeorm-paginate';
+import { Veterinario } from './veterinario.entity';
 
 @Controller('veterinarios')
 export class VeterinariosController {
-  constructor(private readonly veterinariosService: VeterinariosService) {}
+  constructor(private readonly veterinarioService: VeterinariosService) {}
 
   @Post()
   create(@Body() createVeterinarioDto: CreateVeterinarioDto) {
-    return this.veterinariosService.create(createVeterinarioDto);
+    return this.veterinarioService.create(createVeterinarioDto);
   }
 
   @Get()
-  findAll() {
-    return this.veterinariosService.findAll();
+  findAll(
+    @Query('page') page = 1,
+    @Query('limit') limit = 10,
+  ): Promise<Pagination<Veterinario>> {
+    limit = limit > 100 ? 100 : limit;
+    return this.veterinarioService.findAll({ page, limit });
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.veterinariosService.findOne(id);
+    return this.veterinarioService.findOne(id);
   }
 
-  @Put(':id')
+  @Patch(':id')
   update(@Param('id') id: string, @Body() updateVeterinarioDto: UpdateVeterinarioDto) {
-    return this.veterinariosService.update(id, updateVeterinarioDto);
+    return this.veterinarioService.update(id, updateVeterinarioDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.veterinariosService.remove(id);
+    return this.veterinarioService.remove(id);
   }
 }

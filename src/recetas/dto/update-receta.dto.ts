@@ -1,19 +1,19 @@
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class UpdateRecetaDto {
-  @IsString()
   @IsOptional()
-   dosis: string;
- 
-   @IsString()
-   @IsOptional()
-   duracion: string; 
- 
-   @IsNumber()
-   @IsOptional()
-   id_consulta: number;
- 
-   @IsNumber()
-   @IsOptional()
-   id_medicamento: number;
+  @IsString()
+  dosis?: string;
+
+  @IsOptional()
+  @IsString()
+  duracion?: string;
+
+  @IsOptional()
+  @IsUUID()
+  consultaId?: string;
+
+  @IsOptional()
+  @IsUUID()
+  medicamentoId?: string;
 }

@@ -1,6 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Consulta } from '../consulta/consulta.entity';
+import { Medicamento } from '../medicamentos/medicamento.entity';
 
-@Entity('recetas')
+@Entity('receta')
 export class Receta {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -9,12 +11,19 @@ export class Receta {
   dosis: string;
 
   @Column()
-  duracion: string; 
+  duracion: string;
 
   @Column()
-  id_consulta: number;
+  consultaId: string;
 
   @Column()
-  id_medicamento: number;
+  medicamentoId: string;
 
+  @ManyToOne(() => Consulta, { nullable: false })
+  @JoinColumn({ name: 'consultaId' })
+  consulta: Consulta;
+
+  @ManyToOne(() => Medicamento, { nullable: false })
+  @JoinColumn({ name: 'medicamentoId' })
+  medicamento: Medicamento;
 }

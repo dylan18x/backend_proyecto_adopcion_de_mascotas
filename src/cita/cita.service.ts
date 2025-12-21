@@ -1,50 +1,45 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Cita } from './cita.entity';
 import { CreateCitaDto } from './dto/create-cita.dto';
 import { UpdateCitaDto } from './dto/update-cita.dto';
+import { paginate, IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class CitaService {
   constructor(
     @InjectRepository(Cita)
-    private citaRepository: Repository<Cita>,
+    private readonly citaRepository: Repository<Cita>,
   ) {}
 
-  async create(createDto: CreateCitaDto) {
-    const cita = this.citaRepository.create(createDto as any);
+  create(createCitaDto: CreateCitaDto) {
+    const cita = this.citaRepository.create(createCitaDto);
     return this.citaRepository.save(cita);
   }
 
-  async findAll(query: any) {
-    const page = parseInt(query.page, 10) || 1;
-    const limit = parseInt(query.limit, 10) || 10;
-    const skip = (page - 1) * limit;
-
-    const [items, total] = await this.citaRepository.findAndCount({
-      take: limit,
-      skip,
-      order: { creadoEn: 'DESC' },
-    });
-
-    return { items, meta: { total, page, limit } };
+  async findAll(options: IPaginationOptions): Promise<Pagination<Cita>> {
+    const queryBuilder = this.citaRepository.createQueryBuilder('cita');
+    queryBuilder.orderBy('cita.fecha', 'ASC');
+    return paginate<Cita>(queryBuilder, options);
   }
 
-  async findOne(id: string) {
-    const item = await this.citaRepository.findOne({ where: { id } });
-    if (!item) throw new NotFoundException('Cita no encontrada');
-    return item;
+  findOne(id: string) {
+    return this.citaRepository.findOne({ where: { id_cita: id  } });
   }
 
-  async update(id: string, updateDto: UpdateCitaDto) {
-    const item = await this.findOne(id);
-    Object.assign(item, updateDto);
-    return this.citaRepository.save(item);
+  async update(id: string, updateCitaDto: UpdateCitaDto) {
+    const cita = await this.citaRepository.findOne({ where: { id_cita: id } });
+    if (!cita) return null;
+
+    Object.assign(cita, updateCitaDto);
+    return this.citaRepository.save(cita);
   }
 
   async remove(id: string) {
-    const item = await this.findOne(id);
-    return this.citaRepository.remove(item);
+    const cita = await this.citaRepository.findOne({ where: { id_cita: id } });
+    if (!cita) return null;
+
+    return this.citaRepository.remove(cita);
   }
 }

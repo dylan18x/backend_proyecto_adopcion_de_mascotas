@@ -1,10 +1,11 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
-import { PagoService } from './pago.service';
+import { Controller, Post, Body, Get, Query, Put, Param, Delete } from '@nestjs/common';
+import { PagosService } from './pago.service';
 import { CreatePagoDto } from './dto/create-pago.dto';
+import { UpdatePagoDto } from './dto/update-pago.dto';
 
 @Controller('pagos')
-export class PagoController {
-  constructor(private readonly pagoService: PagoService) {}
+export class PagosController {
+  constructor(private readonly pagoService: PagosService) {}
 
   @Post()
   create(@Body() dto: CreatePagoDto) {
@@ -12,7 +13,22 @@ export class PagoController {
   }
 
   @Get()
-  findAll() {
-    return this.pagoService.findAll();
+  findAll(@Query('page') page = 1, @Query('limit') limit = 10) {
+    return this.pagoService.findAll({ page, limit });
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.pagoService.findOne(id);
+  }
+
+  @Put(':id')
+  update(@Param('id') id: string, @Body() dto: UpdatePagoDto) {
+    return this.pagoService.update(id, dto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.pagoService.remove(id);
   }
 }

@@ -1,4 +1,22 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateCitaDto } from './create-cita.dto';
+import { IsOptional, IsString, IsUUID } from 'class-validator';
+export class UpdateCitaDto {
+  @IsOptional()
+  @IsString() 
+  fecha?: string;
 
-export class UpdateCitaDto extends PartialType(CreateCitaDto) {}
+  @IsOptional() 
+  @IsString() 
+  hora?: string;
+
+  @IsOptional() 
+  @IsString() 
+  motivo?: string;
+
+  @IsOptional() 
+  @IsUUID() 
+  id_mascota?: string;
+
+  @IsOptional() 
+  @IsUUID() 
+  id_veterinario?: string;
+}

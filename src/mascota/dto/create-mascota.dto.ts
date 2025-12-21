@@ -1,5 +1,4 @@
-import { IsString} from 'class-validator';
-import { FindOperator } from 'typeorm';
+import { IsString, IsUUID, IsOptional, IsNumber } from 'class-validator';
 
 export class CreateMascotaDto {
   @IsString()
@@ -11,7 +10,10 @@ export class CreateMascotaDto {
   @IsString()
   raza: string;
 
-  @IsString()
+  @IsOptional()
+  @IsNumber()
+  edad?: number;
+
+  @IsUUID()
   id_cliente: string;
-    cliente_id: string | FindOperator<string> | undefined;
 }

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Factura } from './entities/factura.entity';
+import { Factura } from './factura.entity';
 import { FacturaService } from './factura.service';
 import { FacturaController } from './factura.controller';
 

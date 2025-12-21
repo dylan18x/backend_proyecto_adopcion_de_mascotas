@@ -1,28 +1,32 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Mascota } from '../mascota/mascota.entity';
+import { Veterinario } from '../veterinario/veterinario.entity';
 
-@Entity({ name: 'citas' })
+@Entity('cita')
 export class Cita {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id_cita: string;
 
-  @Column({ name: 'consulta_id', type: 'uuid', nullable: true })
-  consultaId?: string;
+  @Column({ type: 'date' })
+  fecha: string;
 
-  @Column({ name: 'usuario_id', type: 'uuid' })
-  usuarioId: string;
+  @Column({ type: 'time' })
+  hora: string;
 
-  @Column({ name: 'fecha_hora', type: 'timestamp' })
-  fechaHora: Date;
+  @Column()
+  motivo: string;
 
-  @Column({ name: 'notas', type: 'text', nullable: true })
-  notas?: string;
+  @Column()
+  id_mascota: string;
 
-  @Column({ name: 'estado', length: 32, default: 'pendiente' })
-  estado: string;
+  @ManyToOne(() => Mascota, { nullable: false })
+  @JoinColumn({ name: 'id_mascota' })
+  mascota: Mascota;
 
-  @CreateDateColumn({ name: 'creado_en' })
-  creadoEn: Date;
+  @Column()
+  id_veterinario: string;
 
-  @UpdateDateColumn({ name: 'actualizado_en' })
-  actualizadoEn: Date;
+  @ManyToOne(() => Veterinario, { nullable: false })
+  @JoinColumn({ name: 'id_veterinario' })
+  veterinario: Veterinario;
 }

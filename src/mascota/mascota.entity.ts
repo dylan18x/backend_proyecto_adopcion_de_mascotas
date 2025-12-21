@@ -1,7 +1,7 @@
-import { Cliente } from 'src/cliente/cliente.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Cliente } from 'src/cliente/cliente.entity';
 
-@Entity('mascotas')
+@Entity('mascota')
 export class Mascota {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -15,7 +15,13 @@ export class Mascota {
   @Column()
   raza: string;
 
+  @Column()
+  edad: number;
+
+  @Column()
+  id_cliente: string;
+
   @ManyToOne(() => Cliente, { nullable: false })
-  @JoinColumn({ name: 'cliente_id' })
+  @JoinColumn({ name: 'id_cliente' })
   cliente: Cliente;
 }

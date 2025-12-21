@@ -11,5 +11,4 @@ export class Vacuna {
   @Column()
   fabricante: string;
 
-
 }
