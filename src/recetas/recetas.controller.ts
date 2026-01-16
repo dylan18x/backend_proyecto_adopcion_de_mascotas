@@ -4,9 +4,9 @@ import { CreateRecetaDto } from './dto/create-receta.dto';
 import { UpdateRecetaDto } from './dto/update-receta.dto';
 import { Receta } from './receta.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
-import { Roles } from 'src/auth/roles.decorator';
-import { UserRole } from 'src/users/user.entity';
-import { Public } from 'src/auth/public.decorator';
+import { Roles } from '../auth/roles.decorator';
+import { UserRole } from '../users/user.entity';
+import { Public } from '../auth/public.decorator';
 
 @Controller('recetas')
 export class RecetasController {

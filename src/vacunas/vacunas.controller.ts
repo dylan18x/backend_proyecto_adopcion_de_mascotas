@@ -4,9 +4,9 @@ import { CreateVacunaDto } from './dto/create-vacuna.dto';
 import { UpdateVacunaDto } from './dto/update-vacuna.dto';
 import { Vacuna } from './vacuna.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
-import { Roles } from 'src/auth/roles.decorator';
-import { UserRole } from 'src/users/user.entity';
-import { Public } from 'src/auth/public.decorator';
+import { Roles } from '../auth/roles.decorator';
+import { UserRole } from '../users/user.entity';
+import { Public } from '../auth/public.decorator';
 
 @Controller('vacunas')
 export class VacunasController {

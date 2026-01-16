@@ -1,4 +1,4 @@
-import { Cita } from 'src/cita/cita.entity';
+import { Cita } from '../cita/cita.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
 
 @Entity('consulta')
