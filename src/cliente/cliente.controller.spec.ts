@@ -1,18 +1,25 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ClientesController } from './cliente.controller';
+import { ClientesService } from './cliente.service';
 
-describe('ClienteController', () => {
-  let controller: ClientesController;
+describe('ClientesController', () => {
+  let controlador: ClientesController;
+
+  const mockClientesService = {
+    findAll: jest.fn().mockResolvedValue({ items: [] }),
+    create: jest.fn().mockImplementation(dto => ({ id: 1, ...dto })),
+  };
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const modulo: TestingModule = await Test.createTestingModule({
       controllers: [ClientesController],
+      providers: [{ provide: ClientesService, useValue: mockClientesService }],
     }).compile();
-
-    controller = module.get<ClientesController>(ClientesController);
+    controlador = modulo.get<ClientesController>(ClientesController);
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  it('debe llamar a findAll', async () => {
+    await controlador.findAll(1);
+    expect(mockClientesService.findAll).toHaveBeenCalled();
   });
 });

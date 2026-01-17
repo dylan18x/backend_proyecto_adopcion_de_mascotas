@@ -1,18 +1,29 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { VeterinariosController } from './veterinario.controller';
+import { VeterinariosService } from './veterinario.service';
 
-describe('VeterinarioController', () => {
-  let controller: VeterinariosController;
+describe('VeterinariosController', () => {
+  let controlador: VeterinariosController;
+  let servicio: VeterinariosService;
+
+  const mockVeterinariosService = {
+    findAll: jest.fn().mockResolvedValue({ items: [] }),
+    remove: jest.fn().mockResolvedValue({ deleted: true }),
+  };
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const modulo: TestingModule = await Test.createTestingModule({
       controllers: [VeterinariosController],
+      providers: [{ provide: VeterinariosService, useValue: mockVeterinariosService }],
     }).compile();
 
-    controller = module.get<VeterinariosController>(VeterinariosController);
+    controlador = modulo.get<VeterinariosController>(VeterinariosController);
+    servicio = modulo.get<VeterinariosService>(VeterinariosService);
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  it('debe llamar a remove con el ID correcto', async () => {
+    const id = '1';
+    await controlador.remove(id);
+    expect(mockVeterinariosService.remove).toHaveBeenCalledWith(id);
   });
 });
