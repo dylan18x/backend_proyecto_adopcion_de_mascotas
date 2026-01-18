@@ -4,9 +4,9 @@ import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
 import { Cliente } from './cliente.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
-import { Roles } from 'src/auth/roles.decorator';
-import { UserRole } from 'src/users/user.entity';
-import { Public } from 'src/auth/public.decorator';
+import { Roles } from '../auth/roles.decorator';
+import { UserRole } from '../users/user.entity';
+import { Public } from '../auth/public.decorator';
 
 @Controller('clientes')
 export class ClientesController {

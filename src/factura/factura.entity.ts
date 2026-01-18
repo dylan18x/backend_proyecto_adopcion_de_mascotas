@@ -12,10 +12,7 @@ export class Factura {
   @Column('decimal', { precision: 10, scale: 2 })
   total: number;
 
-  @Column({ name: 'id_pago' })
-  id_pago: string;
-
-  @ManyToOne(() => Pago)
+  @ManyToOne(() => Pago, { nullable: false })
   @JoinColumn({ name: 'id_pago' })
   pago: Pago;
 }
