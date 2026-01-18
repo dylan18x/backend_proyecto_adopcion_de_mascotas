@@ -1,0 +1,71 @@
+Documentación del backend - Poryecto adopción de mascotas
+
+1. Como instalar y ejecutar el backend 
+Para poner en marcha ek servidor, sigue los siguientes pasis 
+- Clonar el repositorio de la siguiente forma desde la terminal: 
+git clone https://github.com/Michaelslj/backend_proyecto_adopcion_de_mascotas.git
+- Una vez listo eso continuar con esto para abrir todo lo que se clono: 
+cd backend_proyecto_adopcion_de_mascotas
+- Despues descargar paquetes 
+npm install 
+- Correr el codigo
+npm run start:dev 
+- El servidor deberia estar disponible en: 
+http://localhost:3000
+Mientras esto este prendido en el postman se podra seguir ejecutando 
+
+
+2. Ejemplos de uso de la API (con token)
+
+- Crear un usuario en la carpeta de "autenticación" de postman
+Metodo: POST con la ruta http://localhost:3000/auth/register
+En el body debe ir: 
+{
+  "username": "maicol_admin", 
+  "password": "123", 
+  "role":"admin"
+}
+JSON
+Nota: si no envias el campo "role", el sistema lo creara como user (usuario normal) por defecto.
+
+- Iniciar sesión para obtener el token
+Una vez registrado, debes autenticarte para obtener la llave de acceso (token). 
+Metodo: Post con la ruta http://localhost:3000/auth/login
+En el body debe ir: 
+{
+  "username": "maicol_admin", 
+  "password": "123"
+}
+JSON 
+El servidor devolvera un access_token unico
+
+2.1 Uso del token en rutas protegidas 
+Ahora que ya cuentas con el token, los puedes ejecutar en las tablas: 
+- Primero en postman en la tabla que desees abre la peticion que quieres probar como por ejemplo: DELET recetas 
+- Despues ve a la pestaña Authorization 
+-Pega el access_token en el campo de la derecha
+- Presiona Send 
+
+2.3 Verificación de roles 
+- Si es un token de admin: Si usas un token de administrador podras crear, actualizar, y eliminar 
+- Si es un token de usuario normal al intentar realizar las acciones, el sistema no le permitiira lo que cumple con los requisitos de seguridad 
+
+3. Listado de endpoints 
+En todos usa la misma ruta http://localhost:3000 
+Tabla clientes va con la ruta y esto: /clientes 
+Tabla mascotas va con la ruta y esto: /mascotas
+Tabla veterinarios va con la ruta y esto: /veterinarios
+Tabla cita va con la ruta y esto: /citas
+Tabla medicamentos va con la ruta y esto: /medicamentos
+Tabla recetas va con la ruta y esto: /recetas
+Tabla vacunas va con la ruta y esto: /vacunas
+Tabla vacunaciones va con la ruta y esto: /vacunaciones
+Tabla pago va con la ruta y esto: /pagos
+Tabla factura va con la ruta y esto: /factura
+Tabla historial_medico va con la ruta y esto: /historial_medico 
+Tabla consulta va con la ruta y esto: /consultas
+
+
+
+
+
