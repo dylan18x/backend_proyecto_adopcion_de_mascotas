@@ -3,10 +3,9 @@ import { ConsultaService } from './consulta.service';
 import { CreateConsultaDto } from './dto/create-consulta.dto';
 import { UpdateConsultaDto } from './dto/update-consulta.dto';
 import { Consulta } from './consulta.entity';
-import { Pagination } from 'nestjs-typeorm-paginate';
-import { Roles } from 'src/auth/roles.decorator';
-import { UserRole } from 'src/users/user.entity';
-import { Public } from 'src/auth/public.decorator';
+import { Roles } from '../auth/roles.decorator';   
+import { UserRole } from '../users/user.entity';   
+import { Public } from '../auth/public.decorator'; 
 
 @Controller('consultas')
 export class ConsultaController {

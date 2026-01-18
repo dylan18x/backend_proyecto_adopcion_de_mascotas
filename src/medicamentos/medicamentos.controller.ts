@@ -4,9 +4,9 @@ import { MedicamentosService } from './medicamentos.service';
 import { CreateMedicamentoDto } from './dto/create-medicamento.dto';
 import { UpdateMedicamentoDto } from './dto/update-medicamento.dto';
 import { Medicamento } from './medicamento.entity';
-import { Roles } from 'src/auth/roles.decorator';
-import { UserRole } from 'src/users/user.entity';
-import { Public } from 'src/auth/public.decorator';
+import { Roles } from '../auth/roles.decorator';
+import { UserRole } from '../users/user.entity';
+import { Public } from '../auth/public.decorator';
 
 @Controller('medicamentos')
 export class MedicamentosController {
