@@ -10,13 +10,13 @@ export class AuthController {
   @Public() 
   @Post('register')
   async register(@Body() body: any) {
-    const { username, password, role } = body;
+    const { username, password, role, email } = body;
 
     if (role && !Object.values(UserRole).includes(role)) {
       throw new BadRequestException(`El rol ${role} no es válido`);
     }
 
-    return this.authService.register(username, password, role);
+    return this.authService.register(username, password, email, role);
   }
 
   @Public() 

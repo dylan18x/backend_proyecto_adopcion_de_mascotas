@@ -16,7 +16,7 @@ export class Mascota {
   raza: string;
 
 
-  @ManyToOne(() => Cliente, { nullable: false })
+  @ManyToOne(() => Cliente, { nullable: true })
   @JoinColumn({ name: 'id_cliente' })
-  cliente: Cliente;
+  cliente: Cliente | null;
 }

@@ -1,19 +1,19 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class UpdateMascotaDto {
-  @IsOptional()
   @IsString()
-  nombre?: string;
+  @IsNotEmpty()
+  nombre: string;
 
-  @IsOptional()
   @IsString()
-  especie?: string;
+  @IsNotEmpty()
+  especie: string;
 
-  @IsOptional()
   @IsString()
-  raza?: string;
+  @IsNotEmpty()
+  raza: string;
 
-  @IsOptional()
   @IsString()
-  id_cliente?: string;
+  @IsOptional() 
+  id_cliente?: string; 
 }

@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class CreateMascotaDto {
   @IsString()
@@ -14,6 +14,6 @@ export class CreateMascotaDto {
   raza: string;
 
   @IsString()
-  @IsNotEmpty()
-  id_cliente: string; 
+  @IsOptional() 
+  id_cliente?: string; 
 }

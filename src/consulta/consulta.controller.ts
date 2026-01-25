@@ -6,6 +6,7 @@ import { Consulta } from './consulta.entity';
 import { Roles } from '../auth/roles.decorator';   
 import { UserRole } from '../users/user.entity';   
 import { Public } from '../auth/public.decorator'; 
+import { Pagination } from 'nestjs-typeorm-paginate';
 
 @Controller('consultas')
 export class ConsultaController {

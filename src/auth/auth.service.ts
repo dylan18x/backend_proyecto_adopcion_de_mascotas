@@ -39,14 +39,32 @@ export class AuthService {
   async register(
     username: string,
     password: string,
+    email: string,
     role: UserRole = UserRole.USER,
   ) {
     const hash = await bcrypt.hash(password, 10);
-    const user = this.usersRepository.create({
-      username,
-      password: hash,
-      role,
-    });
-    return this.usersRepository.save(user);
+
+    const user = await this.usersRepository.save(
+      this.usersRepository.create({
+        username,
+        password: hash,
+        email,
+        role,
+      }),
+    );
+
+    const payload = {
+      username: user.username,
+      sub: user.id,
+      role: user.role,
+    };
+
+    return {
+      success: true,
+      message: 'Usuario registrado correctamente',
+      data: {
+        access_token: this.jwtService.sign(payload),
+      },
+    };
   }
 }
