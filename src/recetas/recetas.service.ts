@@ -13,19 +13,29 @@ export class RecetasService {
     private readonly recetaRepository: Repository<Receta>,
   ) {}
 
-  create(createRecetaDto: CreateRecetaDto) {
+  async create(createRecetaDto: CreateRecetaDto) {
     const receta = this.recetaRepository.create(createRecetaDto);
-    return this.recetaRepository.save(receta);
+    const guardada = await this.recetaRepository.save(receta);
+    return this.findOne(guardada.id);
   }
 
   async findAll(options: IPaginationOptions): Promise<Pagination<Receta>> {
     const queryBuilder = this.recetaRepository.createQueryBuilder('receta');
-    queryBuilder.orderBy('receta.dosis', 'ASC');
+    
+    queryBuilder
+      .leftJoinAndSelect('receta.medicamento', 'medicamento')
+      .leftJoinAndSelect('receta.consulta', 'consulta')
+      .orderBy('receta.id', 'DESC'); 
+
     return paginate<Receta>(queryBuilder, options);
   }
 
   async findOne(id: string) {
-    const receta = await this.recetaRepository.findOne({ where: { id } });
+    const receta = await this.recetaRepository.findOne({ 
+      where: { id },
+      relations: ['medicamento', 'consulta']
+    });
+    
     if (!receta) {
       throw new NotFoundException('Receta no encontrada');
     }
@@ -35,7 +45,8 @@ export class RecetasService {
   async update(id: string, updateRecetaDto: UpdateRecetaDto) {
     const receta = await this.findOne(id);
     Object.assign(receta, updateRecetaDto);
-    return this.recetaRepository.save(receta);
+    const actualizada = await this.recetaRepository.save(receta);
+    return this.findOne(actualizada.id);
   }
 
   async remove(id: string) {
