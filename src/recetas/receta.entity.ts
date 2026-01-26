@@ -19,11 +19,11 @@ export class Receta {
   @Column()
   medicamentoId: string;
 
-  @ManyToOne(() => Consulta, { nullable: false })
+  @ManyToOne(() => Consulta, { nullable: false, eager: true })
   @JoinColumn({ name: 'consultaId' })
   consulta: Consulta;
 
-  @ManyToOne(() => Medicamento, { nullable: false })
+  @ManyToOne(() => Medicamento, { nullable: false, eager: true })
   @JoinColumn({ name: 'medicamentoId' })
   medicamento: Medicamento;
 }
