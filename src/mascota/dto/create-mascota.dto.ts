@@ -13,7 +13,6 @@ export class CreateMascotaDto {
   @IsNotEmpty()
   raza: string;
 
-  @IsString()
-  @IsOptional() 
-  id_cliente?: string; 
+  @IsOptional()
+  id_cliente?: string;
 }

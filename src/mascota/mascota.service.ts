@@ -18,41 +18,88 @@ export class MascotasService {
   ) {}
 
   async create(createMascotaDto: CreateMascotaDto) {
-    const cliente = await this.clienteRepository.findOne({
-      where: { id: createMascotaDto.id_cliente }, 
-    });
-    if (!cliente) {
-      throw new NotFoundException('Cliente no existe');
+    const idCliente =
+      createMascotaDto.id_cliente &&
+      createMascotaDto.id_cliente.trim() !== ''
+        ? createMascotaDto.id_cliente
+        : null;
+
+    let cliente: Cliente | null = null;
+
+    if (idCliente) {
+      cliente = await this.clienteRepository.findOne({
+        where: { id: idCliente },
+      });
+
+      if (!cliente) {
+        throw new NotFoundException('Cliente no existe');
+      }
     }
+
     const mascota = this.mascotaRepository.create({
       nombre: createMascotaDto.nombre,
       especie: createMascotaDto.especie,
       raza: createMascotaDto.raza,
       cliente,
     });
+
     return this.mascotaRepository.save(mascota);
   }
 
   async findAll(options: IPaginationOptions): Promise<Pagination<Mascota>> {
     const queryBuilder = this.mascotaRepository.createQueryBuilder('mascota');
+    queryBuilder.leftJoinAndSelect('mascota.cliente', 'cliente');
     queryBuilder.orderBy('mascota.nombre', 'ASC');
     return paginate<Mascota>(queryBuilder, options);
   }
 
   async findOne(id: string) {
-    const mascota = await this.mascotaRepository.findOne({ where: { id } });
-    if (!mascota) throw new NotFoundException('Mascota no encontrada');
+    const mascota = await this.mascotaRepository.findOne({
+      where: { id },
+      relations: ['cliente'],
+    });
+
+    if (!mascota) {
+      throw new NotFoundException('Mascota no encontrada');
+    }
+
     return mascota;
   }
 
   async update(id: string, updateMascotaDto: UpdateMascotaDto) {
     const mascota = await this.findOne(id);
-    Object.assign(mascota, updateMascotaDto);
-    return await this.mascotaRepository.save(mascota);
+
+    if ('id_cliente' in updateMascotaDto) {
+      const idCliente =
+        updateMascotaDto.id_cliente &&
+        updateMascotaDto.id_cliente.trim() !== ''
+          ? updateMascotaDto.id_cliente
+          : null;
+
+      if (idCliente === null) {
+        mascota.cliente = null;
+      } else {
+        const cliente = await this.clienteRepository.findOne({
+          where: { id: idCliente },
+        });
+
+        if (!cliente) {
+          throw new NotFoundException('Cliente no existe');
+        }
+
+        mascota.cliente = cliente;
+      }
+    }
+
+    mascota.nombre = updateMascotaDto.nombre;
+    mascota.especie = updateMascotaDto.especie;
+    mascota.raza = updateMascotaDto.raza;
+
+    return this.mascotaRepository.save(mascota);
   }
 
   async remove(id: string) {
     const mascota = await this.findOne(id);
-    return await this.mascotaRepository.remove(mascota);
+    return this.mascotaRepository.remove(mascota);
   }
 }
