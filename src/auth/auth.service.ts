@@ -53,7 +53,7 @@ export class AuthService {
       username,
       email,
       password: hash,
-      role: UserRole.USER, // 🔐 siempre USER
+      role: UserRole.USER, 
     });
 
     await this.usersRepository.save(user);
