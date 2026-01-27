@@ -10,12 +10,12 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'http://localhost:5173',
-      'http://localhost:3000', 
-      'https://fernandez-adopcion-mascotas-api.desarrollo-software.xyz',
-
+      'http://localhost:3000',
+      'https://huellitas-felices.desarrollo-software.xyz',
+      'https://fernandez-adopcion-mascotas-api.desarrollo-software.xyz'
     ],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Tyape', 'Authorization'],
     credentials: true, // si usas cookies/sesión
   });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
