@@ -13,48 +13,48 @@ export class VacunacionesService {
     private readonly vacunacionRepository: Repository<Vacunacion>,
   ) {}
 
-  async create(createVacunacionDto: CreateVacunacionDto) {
-    const vacunacion = this.vacunacionRepository.create(createVacunacionDto);
-    const guardada = await this.vacunacionRepository.save(vacunacion);
-    // Retornamos con relaciones para que Postman muestre los nombres de inmediato
+  async create(dto: CreateVacunacionDto) {
+    const nueva = this.vacunacionRepository.create({
+      fecha: dto.fecha,
+      mascota: { id: dto.mascotaId } as any,
+      vacuna: { id: dto.vacunaId } as any,
+    });
+    const guardada = await this.vacunacionRepository.save(nueva);
     return this.findOne(guardada.id);
   }
 
-  findAll(options: IPaginationOptions): Promise<Pagination<Vacunacion>> {
-    const queryBuilder = this.vacunacionRepository.createQueryBuilder('vacunacion');
-    
-    // Traemos las relaciones para que el Frontend vea los nombres
+  async findAll(options: IPaginationOptions): Promise<Pagination<Vacunacion>> {
+    const queryBuilder = this.vacunacionRepository.createQueryBuilder('v');
     queryBuilder
-      .leftJoinAndSelect('vacunacion.mascota', 'mascota')
-      .leftJoinAndSelect('vacunacion.vacuna', 'vacuna')
-      .orderBy('vacunacion.fecha', 'ASC');
+      .leftJoinAndSelect('v.mascota', 'mascota')
+      .leftJoinAndSelect('v.vacuna', 'vacuna')
+      .orderBy('v.fecha', 'DESC');
 
     return paginate<Vacunacion>(queryBuilder, options);
   }
 
   async findOne(id: string) {
-    const vacunacion = await this.vacunacionRepository.findOne({ 
+    const registro = await this.vacunacionRepository.findOne({ 
       where: { id },
       relations: ['mascota', 'vacuna'] 
     });
-    
-    if (!vacunacion) {
-      throw new NotFoundException('Vacunación no encontrada');
-    }
-    return vacunacion;
+    if (!registro) throw new NotFoundException('Vacunación no encontrada');
+    return registro;
   }
 
-  // MÉTODO UPDATE (El que te marcaba error)
-  async update(id: string, updateVacunacionDto: UpdateVacunacionDto) {
-    const vacunacion = await this.findOne(id); 
-    Object.assign(vacunacion, updateVacunacionDto);
-    const actualizada = await this.vacunacionRepository.save(vacunacion);
-    return this.findOne(actualizada.id); // Retornamos con relaciones actualizadas
+  async update(id: string, dto: UpdateVacunacionDto) {
+    const registro = await this.findOne(id); 
+
+    if (dto.mascotaId) registro.mascota = { id: dto.mascotaId } as any;
+    if (dto.vacunaId) registro.vacuna = { id: dto.vacunaId } as any;
+    if (dto.fecha) registro.fecha = dto.fecha;
+
+    await this.vacunacionRepository.save(registro);
+    return this.findOne(id);
   }
 
-  // MÉTODO REMOVE (El que te marcaba error)
   async remove(id: string) {
-    const vacunacion = await this.findOne(id); 
-    return this.vacunacionRepository.remove(vacunacion);
+    const registro = await this.findOne(id); 
+    return this.vacunacionRepository.remove(registro);
   }
 }
