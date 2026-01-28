@@ -13,47 +13,38 @@ export class CitaService {
     private readonly citaRepository: Repository<Cita>,
   ) {}
 
-  create(createCitaDto: CreateCitaDto) {
-    const cita = this.citaRepository.create(createCitaDto);
-    return this.citaRepository.save(cita);
+  async create(createCitaDto: CreateCitaDto): Promise<Cita> {
+    const nuevaCita = this.citaRepository.create(createCitaDto);
+    const guardada = await this.citaRepository.save(nuevaCita);
+    return this.findOne(guardada.id_cita); // Retorna con relaciones
   }
 
   async findAll(options: IPaginationOptions): Promise<Pagination<Cita>> {
     const queryBuilder = this.citaRepository.createQueryBuilder('cita');
-    queryBuilder.orderBy('cita.fecha', 'ASC');
+    queryBuilder
+      .leftJoinAndSelect('cita.mascota', 'mascota')
+      .leftJoinAndSelect('cita.veterinario', 'veterinario')
+      .orderBy('cita.fecha', 'DESC');
+
     return paginate<Cita>(queryBuilder, options);
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<Cita> {
     const cita = await this.citaRepository.findOne({
       where: { id_cita: id },
+      relations: ['mascota', 'veterinario'],
     });
-    if (!cita) {
-      throw new NotFoundException('Cita no encontrada');
-    }
+    if (!cita) throw new NotFoundException(`Cita con ID ${id} no encontrada`);
     return cita;
   }
 
-  async update(id: string, updateCitaDto: UpdateCitaDto) {
-    const cita = await this.citaRepository.findOne({
-      where: { id_cita: id },
-    });
-    if (!cita) {
-      throw new NotFoundException('Cita no encontrada');
-    }
-
-    Object.assign(cita, updateCitaDto);
-    return this.citaRepository.save(cita);
+  async update(id: string, updateCitaDto: UpdateCitaDto): Promise<Cita> {
+    await this.citaRepository.update(id, updateCitaDto);
+    return this.findOne(id);
   }
 
-  async remove(id: string) {
-    const cita = await this.citaRepository.findOne({
-      where: { id_cita: id },
-    });
-    if (!cita) {
-      throw new NotFoundException('Cita no encontrada');
-    }
-
-    return this.citaRepository.remove(cita);
+  async remove(id: string): Promise<Cita> {
+    const cita = await this.findOne(id);
+    return await this.citaRepository.remove(cita);
   }
 }
