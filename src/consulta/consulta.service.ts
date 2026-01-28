@@ -13,33 +13,37 @@ export class ConsultaService {
     private readonly consultaRepository: Repository<Consulta>,
   ) {}
 
-  create(createConsultaDto: CreateConsultaDto) {
-    const consulta = this.consultaRepository.create(createConsultaDto);
-    return this.consultaRepository.save(consulta);
+  async create(createDto: CreateConsultaDto): Promise<Consulta> {
+    const nueva = this.consultaRepository.create(createDto);
+    const guardada = await this.consultaRepository.save(nueva);
+    return this.findOne(guardada.id); 
   }
 
   async findAll(options: IPaginationOptions): Promise<Pagination<Consulta>> {
-    const queryBuilder = this.consultaRepository.createQueryBuilder('consulta');
-    queryBuilder.orderBy('consulta.id', 'ASC');
-    return paginate<Consulta>(queryBuilder, options);
+    const qb = this.consultaRepository.createQueryBuilder('consulta');
+    qb.leftJoinAndSelect('consulta.cita', 'cita') 
+      .leftJoinAndSelect('cita.mascota', 'mascota') 
+      .orderBy('consulta.id', 'DESC');
+
+    return paginate<Consulta>(qb, options);
   }
 
-  async findOne(id: string) {
-    const consulta = await this.consultaRepository.findOne({ where: { id } });
-    if (!consulta) {
-      throw new NotFoundException('Consulta no encontrada');
-    }
+  async findOne(id: string): Promise<Consulta> {
+    const consulta = await this.consultaRepository.findOne({
+      where: { id }, 
+      relations: ['cita', 'cita.mascota'], 
+    });
+    if (!consulta) throw new NotFoundException(`Consulta ${id} no encontrada`);
     return consulta;
   }
 
-  async update(id: string, updateConsultaDto: UpdateConsultaDto) {
-    const consulta = await this.findOne(id);
-    Object.assign(consulta, updateConsultaDto);
-    return this.consultaRepository.save(consulta);
+  async update(id: string, updateDto: UpdateConsultaDto): Promise<Consulta> {
+    await this.consultaRepository.update(id, updateDto);
+    return this.findOne(id);
   }
 
   async remove(id: string) {
     const consulta = await this.findOne(id);
-    return this.consultaRepository.remove(consulta);
+    return await this.consultaRepository.remove(consulta);
   }
 }

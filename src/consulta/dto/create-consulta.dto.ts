@@ -1,4 +1,4 @@
-import { IsString, IsUUID } from 'class-validator';
+import { IsString, IsUUID, IsOptional } from 'class-validator';
 
 export class CreateConsultaDto {
   @IsString()
@@ -7,9 +7,10 @@ export class CreateConsultaDto {
   @IsString()
   tratamiento: string;
 
+  @IsOptional() 
   @IsString()
   observaciones: string;
 
-  @IsUUID()
+  @IsUUID() 
   id_cita: string;
 }
