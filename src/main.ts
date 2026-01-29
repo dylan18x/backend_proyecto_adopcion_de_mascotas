@@ -15,7 +15,7 @@ async function bootstrap() {
       'https://fernandez-adopcion-mascotas-api.desarrollo-software.xyz'
     ],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type','Accept' ,'Authorization'],
     credentials: true, // si usas cookies/sesión
   });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));

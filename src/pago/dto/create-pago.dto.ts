@@ -1,8 +1,9 @@
-import { IsDateString, IsNumber, IsString, IsUUID } from 'class-validator';
+import { IsNumber, IsString, IsOptional, IsDateString } from 'class-validator';
 
 export class CreatePagoDto {
   @IsDateString()
-  fecha: string;
+  @IsOptional()
+  fecha?: string;
 
   @IsNumber()
   monto: number;
@@ -10,6 +11,8 @@ export class CreatePagoDto {
   @IsString()
   metodo_pago: string;
 
-  @IsUUID()
-  id_cliente: string; 
+  // Cambiamos id_cliente por este campo
+  @IsString()
+  @IsOptional()
+  username_donante?: string;
 }

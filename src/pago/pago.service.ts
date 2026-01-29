@@ -15,21 +15,19 @@ export class PagosService {
 
   async create(dto: CreatePagoDto) {
     const nuevoPago = this.pagoRepository.create({
-      fecha: new Date(dto.fecha), 
+      fecha: dto.fecha ? new Date(dto.fecha) : new Date(),
       monto: dto.monto,
       metodo_pago: dto.metodo_pago,
-      cliente: { id: dto.id_cliente } as any, // Vinculamos por ID
+      username_donante: dto.username_donante || 'anonimo',
     });
-    
+
     const guardado = await this.pagoRepository.save(nuevoPago);
-    // IMPORTANTE: Refrescar para traer el 'nombre' del cliente
     return this.findOne(guardado.id_pago);
   }
 
   async findAll(options: IPaginationOptions): Promise<Pagination<Pago>> {
     const queryBuilder = this.pagoRepository.createQueryBuilder('pago');
     queryBuilder
-      .leftJoinAndSelect('pago.cliente', 'cliente') // Carga la relación cliente
       .orderBy('pago.fecha', 'DESC');
       
     return paginate<Pago>(queryBuilder, options);
@@ -38,7 +36,7 @@ export class PagosService {
   async findOne(id: string) {
     const pago = await this.pagoRepository.findOne({ 
       where: { id_pago: id },
-      relations: ['cliente'] 
+      relations: ['usuario'] // Cargamos la relación del usuario (donante)
     });
     
     if (!pago) throw new NotFoundException(`El pago no existe`);
@@ -51,7 +49,10 @@ export class PagosService {
     if (dto.monto !== undefined) pago.monto = dto.monto;
     if (dto.metodo_pago) pago.metodo_pago = dto.metodo_pago;
     if (dto.fecha) pago.fecha = new Date(dto.fecha);
-    if (dto.id_cliente) pago.cliente = { id: dto.id_cliente } as any;
+    
+    if (dto.username_donante) {
+      pago.username_donante = dto.username_donante;
+    }
 
     await this.pagoRepository.save(pago);
     return this.findOne(id); 

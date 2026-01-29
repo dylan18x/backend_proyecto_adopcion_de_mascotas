@@ -1,6 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { Cliente } from '../cliente/cliente.entity';
-
+import { User } from '../users/user.entity';
 @Entity('pago')
 export class Pago {
   @PrimaryGeneratedColumn('uuid')
@@ -15,10 +14,10 @@ export class Pago {
   @Column({ name: 'metodo_pago' })
   metodo_pago: string;
 
-  @Column({ name: 'id_cliente' })
-  id_cliente: string;
+  @Column({ name: 'username_donante', nullable: true })
+  username_donante: string;
 
-  @ManyToOne(() => Cliente)
-  @JoinColumn({ name: 'id_cliente' })
-  cliente: Cliente;
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'username_donante', referencedColumnName: 'username' })
+  usuario: User;
 }

@@ -10,7 +10,7 @@ import { Public } from '../auth/public.decorator';
 export class PagosController {
   constructor(private readonly pagoService: PagosService) {}
 
-  @Roles(UserRole.ADMIN)
+  @Public() 
   @Post()
   create(@Body() dto: CreatePagoDto) {
     return this.pagoService.create(dto);
