@@ -32,7 +32,7 @@ export class MascotasController {
   @Get()
   findAll(
     @Query('page') page = 1,
-    @Query('limit') limit = 10,
+    @Query('limit') limit = 100,
   ): Promise<Pagination<Mascota>> {
     limit = limit > 100 ? 100 : limit;
     return this.mascotaService.findAll({ page, limit });
